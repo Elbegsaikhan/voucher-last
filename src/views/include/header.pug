@@ -1,0 +1,39 @@
+header.header
+    .header-inner
+        nav.navbar
+            .logo
+                a.navbar-brand(data-toggle='collapse', data-target='.navbar-collapse.show', href='/')
+                    img#logo-light.logo-light(src='/frontAssets/img/logo-progrid.png', alt='logo-light')
+                    img#logo-dark.logo-dark(src='/frontAssets/img/styleswitcher/logos/logos-dark/yellow.png', alt='logo-dark')
+            button.navbar-toggle.navbar-toggler(type='button', data-toggle='collapse', data-target='.navbar-collapse', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
+                span#icon-toggler
+                    span
+                    span
+                    span
+                    span
+            #navbarSupportedContent.collapse.navbar-collapse.navbar-responsive-collapse
+                ul#main-navigation.nav.navbar-nav
+                    li.active
+                        a(href='/')
+                            i.fa.fa-home
+                            |  Нүүр хуудас
+                    li
+                        a(href='/solutions/all')
+                            i.fa.fa-flash
+                            |  Шийдэл
+                    li
+                        a(href='/specials')
+                            i.fa.fa-flash
+                            |  Онцгой санал
+                    li
+                        a(href='/news/all')
+                            i.fa.fa-edit
+                            |  Мэдээ нийтлэл
+                    li
+                        a(href='/contact')
+                            i.fa.fa-envelope
+                            |  Холбоо барих
+            .site-search.hidden-xs
+                .search-container
+                    input#search-input(type='text', placeholder='type your keyword and hit enter ...')
+                    span.close ×

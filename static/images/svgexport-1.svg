@@ -1,0 +1,14 @@
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" width="24.032" height="24" viewBox="0 0 24.032 24"><link xmlns="" type="text/css" rel="stylesheet" id="dark-mode-custom-link"/><link xmlns="" type="text/css" rel="stylesheet" id="dark-mode-general-link"/><style xmlns="" lang="en" type="text/css" id="dark-mode-custom-style"/><style xmlns="" lang="en" type="text/css" id="dark-mode-native-style"/>
+    <defs>
+        <style>
+            .cls-2{fill:none;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px}
+        </style>
+    </defs>
+    <g id="Icons_Shopping_ic-shopping-bag" transform="translate(.016)">
+        <path id="Rectangle_361" fill="none" d="M0 0H24V24H0z"/>
+        <g id="ic-shopping-bag" transform="translate(-1.54 -1.482)">
+            <path id="Path_330" d="M22.259 22.426H4.858a2.38 2.38 0 0 1-1.822-.839 2.113 2.113 0 0 1-.436-1.871L5.406 8.7A2.3 2.3 0 0 1 7.63 7h11.857a2.3 2.3 0 0 1 2.225 1.7l2.772 11.019a2.112 2.112 0 0 1-.427 1.859 2.377 2.377 0 0 1-1.798.848z" class="cls-2" transform="translate(0 1.538)"/>
+            <path id="Path_331" d="M7.56 7.659l1.048-2.12A4.659 4.659 0 0 1 12.731 3a4.659 4.659 0 0 1 4.123 2.539l1.046 2.12" class="cls-2" transform="translate(.827)"/>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,50 @@
+extends layout/layout
+
+block title
+    title #{bot.bot_title}
+block og
+    meta(name='title', content=`${bot.bot_title}`)
+    meta(name='description', content=`${bot.bot_description}`)
+    meta(name='keywords', content=bot.bot_keywords)
+    meta(property='og:description', content=bot.bot_description)
+    meta(property='og:image', content=`https://progrids.mn/frontAssets/img/banner.jpg`)
+    meta(property='og:url', content='https://progrids.mn/news/all')
+    meta(property='og:type', content='article')
+    meta(property='og:title', content='Мэдээ нийтлэл')
+    meta(property='og:site_name', content='Progrid Systems')
+    link(href='/images/faviconVoucher.png', rel='shortcut icon')
+
+block content
+    h1.hidden-title #{bot.bot_title}
+    h2.hidden-title Мэдээ нийтлэл
+        section
+            .container
+                nav
+                    ul
+                        li(style='margin-bottom: 15px; font-size: 12px; padding: 5px 15px;')
+                            i.fa.fa-reorder(style='margin-right: 7px;')
+                            | Бүгд
+                        if cates && cates.length > 0
+                            each item in cates
+                                li(style='margin-bottom: 15px; font-size: 12px; padding: 5px 15px;')
+                                    a(href=`/solutions/${item.slug}`) #{item.title}
+                div
+                    .aaaa
+                        if news && news.length > 0
+                            each item in news
+                                article
+                                    a(href=`/nsingle/${item.slug}`)
+                                        h4 #{item.title}
+                                    figure
+                                        a(href=`/nsingle/${item.slug}`)
+                                            img.img-responsive(src=`${item.image}`, alt='')
+                                    p.excerpt-blog #{item.description}
+                                    a.custom-button(href=`/nsingle/${item.slug}`) Read more
+                .sidebar.col-xs-12.col-md-4
+                    .widget
+                        h3.widget-title Ангилал
+                        ul.nav.nav-tabs
+                            if cates && cates.length > 0
+                                each item in cates
+                                    li
+                                        a(href=`/news/${item.slug}`) #{item.title}

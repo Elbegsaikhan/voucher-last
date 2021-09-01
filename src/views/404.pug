@@ -1,0 +1,21 @@
+extends layout/layout
+
+block title
+    title ХУУДАС ОЛДСОНГҮЙ
+block og
+    meta(name='title', content=`${bot.bot_title}`)
+    meta(name='description', content=`${bot.bot_description}`)
+    meta(name='keywords', content=bot.bot_keywords)
+    meta(property='og:description', content=bot.bot_description)
+    meta(property='og:title', content=`${bot.bot_title}`)
+    meta(property='og:image', content=`https://progrids.mn/frontAssets/img/logo-progrid.png`)
+    meta(property='og:type', content='organization')
+    meta(property='og:site_name', content='Progrid Systems')
+    link(rel='canonical', href='https://progrids.mn')
+block content
+    h1 Progrid Systems
+    .not-found
+        p 404! ХУУДАС ОЛДСОНГҮЙ
+        span Уучлаарай таны орсон линк идвэхгүй байна.
+        a(href='https://progrids.mn/')
+            | Нүүр хуудасруу буцах

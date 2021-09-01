@@ -1,0 +1,156 @@
+extends layout/layout
+
+block title
+    title #{bot.bot_title}
+block og
+    meta(name='title', content=`${bot.bot_title}`)
+    meta(name='description', content=`${bot.bot_description}`)
+    meta(name='keywords', content=bot.bot_keywords)
+    meta(property='og:description', content=bot.bot_description)
+    meta(property='og:image', content=`https://progrids.mn/frontAssets/img/logo-progrid.png`)
+    meta(property='og:url', content='https://progrids.mn')
+    meta(property='og:type', content='article')
+    meta(property='og:site_name', content='progrids.mn')
+    link(href='/images/faviconVoucher.png', rel='shortcut icon')
+
+block content
+    h1.hidden-title #{bot.bot_title}
+        section.main
+            .slider
+                each item in sliders
+                    .slides.nexts.sliders-content(style=`background: url('${item.image}') center center no-repeat;`)
+                        .inner
+                            h1 #{item.title}
+                            p #{item.description}
+                            if item.link
+                                a(href=`${item.link}`)
+                                    button.custom-button.slider-button.scroll-to-target
+                                        span Дэлгэрэнгүй
+        if config.about
+            section#about.about
+                .container
+                    .text-center.top-text
+                        h1
+                            span Бидний
+                            |  Тухай
+                    .divider.text-center
+                        span.outer-line
+                        span.fa.fa-user(aria-hidden='true')
+                        span.outer-line
+                    .row.about
+                        .col-sm-12.col-md-6.col-lg-6
+                            h3.title-about #{config.about.title}
+                            hr
+                            p #{config.about.description}
+                            if config.about.sections && config.about.sections.length > 0
+                                ul
+                                    each item in config.about.sections
+                                        li.active
+                                            a(data-toggle='tab', href='#menu1') #{item.title}
+                                .tab-content
+                                    each item in config.about.sections
+                                        #menu1
+                                            p #{item.description}
+                        .col-md-6.col-lg-6.about-right-side
+                            .full-image-container.hovered(style=`background-image: url('${config.about.image}');`)
+                                img.img-responsive.hidden-xs(src=`${config.about.image}`, alt='')
+                                .full-image-overlay
+                                    h3 #{config.about.imageTitle}
+                                    if config.about.imageDescriptions && config.about.imageDescriptions.length > 0
+                                        ul.list-why-choose-us
+                                            each item in config.about.imageDescriptions
+                                                li #{item}
+        section.call-to-action
+            .section-overlay
+                .container
+                    .text-center.top-text
+                        h1
+                            span Progrid
+                            |  Systems
+                    .divider.text-center
+                        span.outer-line
+                        span.fa.fa-star(aria-hidden='true')
+                        span.outer-line
+                    .row.pricing-tables-content
+                        .pricing-container
+                            ul.pricing-list.bounce-invert
+                                li.col-xs-12.col-sm-6.col-md-6.col-lg-6
+                                    ul.pricing-wrapper
+                                        li.is-ended.is-visible(data-type='yearly')
+                                            header.pricing-header
+                                                h2 Шийдэл
+                                                .price-content
+                                                    img(src='https://www.itzone.mn/image/image-1.orig', alt='', style='width: calc(100% + 60px); margin-left: -30px; height: 200px; object-fit: cover;')
+                                            .pricing-body
+                                                ul.pricing-features
+                                                    li
+                                                        em Цахим аюулгүй байдал
+                                                    li
+                                                        em Үүлэн технологи
+                                                    li
+                                                        em Лицензжүүлэлт
+                                            footer.pricing-footer
+                                                a.custom-button(href='/solutions')
+                                                    span(data-hover='add to cart') Дэлгэрэнгүй
+                                li.col-xs-12.col-sm-6.col-md-6.col-lg-6
+                                    ul.pricing-wrapper
+                                        li.is-ended.is-visible(data-type='yearly')
+                                            header.pricing-header
+                                                h2 Онцгой санал
+                                                .price-content
+                                                    img(src='https://www.itzone.mn/image/aerial-road.jpg', alt='', style='width: calc(100% + 60px); margin-left: -30px; height: 200px; object-fit: cover;')
+                                            .pricing-body
+                                                ul.pricing-features
+                                                    li
+                                                        em Хямдрал
+                                                    li
+                                                        em Урамшуулал
+                                                    li
+                                                        em Ашигтай санал
+                                            footer.pricing-footer
+                                                a.custom-button(href='/specials')
+                                                    span(data-hover='add to cart') Дэлгэрэнгүй
+        if partners && partners.length > 0
+            section.services
+                .container
+                    .text-center.top-text
+                        h1
+                            span Бидний
+                            |  Хамтрагчид
+                    .divider.text-center
+                        span.outer-line
+                        span.fa.fa-cogs(aria-hidden='true')
+                        span.outer-line
+                    .row.services-box
+                        each item in partners
+                            .col-lg-4.col-md-6.col-sm-12.services-box-item
+                                span.services-box-item-cover.fa.fa-leaf(data-headline=`${item.title}`)
+                                    img(src=`${item.image}`)
+                                .services-box-item-content.fa.fa-leaf
+                                    h2 #{item.title}
+                                    p #{item.statusText}
+        if news && news.length > 0
+            section.blog
+                .container
+                    .text-center.top-text
+                        h1
+                            span Мэдээ
+                            |  Нийтлэл
+                    .divider.text-center
+                        span.outer-line
+                        span.fa.fa-comments(aria-hidden='true')
+                        span.outer-line
+                    .row.latest-posts-content
+                        each item in news
+                            .col-sm-4.col-md-4.col-xs-12
+                                .latest-post
+                                    a.img-thumb(href=`/nsingle/${item.slug}`)
+                                        img.img-responsive(src=`${item.image}`, alt='img')
+                                    .post-body
+                                        h4.post-title
+                                            a(href='blog-post.html') #{item.title}
+                                    .post-date
+                                        span 18
+                                        span MAR
+                                    a.custom-button(href=`/nsingle/${item.slug}`)
+                                        span(data-hover='Read more') Цааш үзэх

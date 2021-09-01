@@ -1,0 +1,30 @@
+extends layout/layout
+
+block title
+    title #{bot.bot_title}
+block og
+    meta(name='title', content=`${item.title}`)
+    meta(name='description', content=`${item.description}`)
+    meta(name='keywords', content=`${bot.bot_keywords}`)
+    meta(property='og:description', content=`${(striptags(item.body)).substring(0, 100)} ...`)
+    meta(property='og:title', content=item.title)
+    meta(property='og:image', content=`https://progrids.mn${item.image}`)
+    meta(property='og:url', content=`https://progrids.mn/nsingle/${item.slug}`)
+    meta(property='og:type', content='article')
+    meta(property='og:site_name', content='Progrid Systems')
+    link(href='/images/faviconVoucher.png', rel='shortcut icon')
+
+block content
+    h1.hidden-title #{bot.bot_title}
+    h2.hidden-title #{item.title}
+        section.project
+            .container
+                .row
+                    .col-md-6
+                        .project-main-content
+                            img.img-responsive(src=`${item.image}`, alt='image')
+                    .col-md-6
+                        .project-details
+                            h3 #{item.title}
+                .content-asd(style='margin-top: 60px; width: 100%;')
+                    !=item.body
