@@ -113,7 +113,7 @@ const Autoplay = (props) => {
                                 width="100%"
                                 style={{
                                     width: "100%",
-                                    height: isMobileOnly ? "320px" : props.height,
+                                    height: isMobileOnly ? "700px" : props.height,
                                 }}
                             />
                         </div>

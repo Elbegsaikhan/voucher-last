@@ -18,6 +18,8 @@ class Main extends Component {
     }
 
     componentDidMount() {
+        const ads = localStorage.getItem('ads')
+        console.log("ADDSSS", ads)
         const optios = {
             insert: "top",
             container: "top-right",

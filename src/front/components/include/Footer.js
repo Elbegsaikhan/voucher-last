@@ -27,7 +27,7 @@ class Footer extends Component {
 
         return (
             <React.Fragment>
-                <div id="contact" className="footer" style={{backgroundColor: "#00FFEF"}}>
+                <div id="contact" className="footer">
                     <div className="container">
                         <div className="row">
                             <div className="col-md-4 col-sm-4">

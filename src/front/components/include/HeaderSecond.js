@@ -13,11 +13,12 @@ function HeaderTail(props) {
 	const [showMenu2, setShowMenu2] = useState(false);
 	const [showMenu3, setShowMenu3] = useState(false);
 	const [search, setSearch] = useState("");
+	const [all2, setAll] = useState(0)
+
 
 	const dispatch = useDispatch()
 	useEffect(() => {
-		dispatch(getCart())
-
+		// dispatch(getCart())
 		window.addEventListener("scroll", handleScroll, {passive: true});
 		return () => {
 			window.removeEventListener("scroll", handleScroll);
@@ -46,14 +47,17 @@ function HeaderTail(props) {
 	};
 	const searchSub = (para) => {
 	};
-	const {items, all} = cart
+	const c = localStorage.getItem('cart')
+	const caa = JSON.parse(c)
+	const items = caa[0]
+	const all = caa[1]
 
 	return (
 		<div>
 			<div
 				style={{
 					width: "100%",
-					height: "120px",
+					height: isMobile ? "50px" : "78px",
 					backgroundColor: "#00FFEF",
 					display: "flex",
 					justifyContent: "space-around",
@@ -72,13 +76,14 @@ function HeaderTail(props) {
 					{/* </Link> */}
 				</div>
 				<Link to="/">
-					<img src={props.config.logo} alt="vouchers.mn" width={isMobile ? "180px" : "300px"} height={isMobile ? "75px" : "101px"}/>
+					{/*<div style={{ background: url() }}/>*/}
+					<img src={ props.config.logo} alt="vouchers.mn" width={isMobile ? "150px" : "220px"} height={isMobile ? "45px" : "75px"}/>
 				</Link>
 				<div className="shop-icon">
 					<Link to={"/cart"}>
 						<img src={" /images/svgexport-1.png"} alt="icon"/>
 						<span className="shop-icon__badge" style={{fontWeight: "400", fontSize: "12px"}}>
-                        {all & all}
+                        {all}
                     </span>
 					</Link>
 				</div>
@@ -133,7 +138,8 @@ function HeaderTail(props) {
 										onChange={(event) => setSearch(event.target.value)}
 									/>
 									<button onClick={() => props.search(search)} className="btn">
-										<Icon path={mdiMagnify} size={1} color="#000"/>
+										{/*<Icon path={mdiMagnify} size={1} color="#000"/>*/}
+										<img src={'/uploads/2021/05/search.png'} style={{ width: "20px", height: '20px'}} />
 									</button>
 								</li>
 								<li className="nav-text nav-title">

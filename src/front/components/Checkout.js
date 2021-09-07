@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import {useSelector, useDispatch} from "react-redux";
 import {Link} from "react-router-dom";
 import {Container, Button, Row, Col} from "react-bootstrap";
@@ -15,24 +15,25 @@ import Address from "./Second/Address";
 import VerifModal from "./Second/VerifModal";
 import GiftSlide from "./Slide/GiftSlide";
 import Footer from './include/Footer'
+import Header from "./include/Header";
+import SvvldVzsenSlidde from "./Slide/SvvldVzsenSlidde";
 
 function Checkout(props) {
 	const iniState = useSelector((state) => state.main);
 	const product = useSelector((state) => state.product);
 	const home = useSelector((state) => state.home);
-	const cart = useSelector((state) => state.cart)
 	const coupon = useSelector((state) => state.coupon)
 	const dispatch = useDispatch();
-	const {items, all} = cart
+	// const {items, all} = cart;
 
 
 	useEffect(() => {
 		// run()
+
 		dispatch(getProduct());
 		dispatch(getHome());
 		dispatch(getCart())
-		setItems2(items)
-
+		// setItems2(items)
 	}, []);
 
 	const {user, config} = iniState;
@@ -54,7 +55,10 @@ function Checkout(props) {
 		dispatch(saveCart({_id: 0, user: id, product: id2, type: 1}))
 	};
 
-	const {cards, loading} = product;
+	let localProduct = localStorage.getItem('productLocal')
+	const cards = JSON.parse(localProduct)
+	const {loading} = product;
+
 	let card = {};
 	// const items2 = Object.values(items)
 	const datas = Object.values(cards);
@@ -74,24 +78,22 @@ function Checkout(props) {
 			setIdx(idx - 1)
 		}
 	};
+
 	/// Tostei baraanuud
 	let filteredPro = datas.filter((d) => d.category._id === card.category._id && d._id !== card._id);
-	const vzsen = []
-	if (user) {
-		const iii = Object.values(items2)
-		let cartItems = iii.filter((ite) => ite.type === 2 && ite.user === user._id)
-		console.log("Items", cartItems)
-		const svvld = []
-		cartItems.map((ci) => {
-			svvld.push(ci.product)
-		})
-		datas.map((d) => {
-			for (let rr in svvld) {
-				if (d._id === svvld[rr]) {
-					vzsen.push(d)
-				}
+	// console.log('aa' + filteredPro)
+	let vzsen = localStorage.getItem('svvld')
+	vzsen = JSON.parse(vzsen)
+	let svvldVzsen = []
+
+	for(let i in vzsen){
+		for(let j in cards){
+			// console.log("Vzsen", vzsen[i].product)
+			// console.log("Svvld", cards[j]._id)
+			if(vzsen[i].product === cards[j]._id){
+				svvldVzsen.push(cards[j])
 			}
-		})
+		}
 	}
 
 	let address = card.address && card.address.split("/");
@@ -120,6 +122,8 @@ function Checkout(props) {
 		}
 
 	}
+	let shuffleData = datas.filter((d) => d.category._id !== card.category._id);
+
 	return (
 		<ActivityContainer loading={loading}>
 			<Container
@@ -132,18 +136,10 @@ function Checkout(props) {
 			>
 				{/* <Product /> */}
 				<div>
-
-					<div
-						className="banner-image"
-						style={{backgroundColor: "#00FFEF", height: "110px", marginTop: '0'}}
-					>
-						<Link to={"/"}>
-							<img
-								src={"/uploads/2021/05/logo-white-nice2.png"}
-								style={{height: "110px"}}
-							/>
-						</Link>
-					</div>
+					<Header
+						location={props.location}
+						history={props.history}
+					/>
 
 					<VerifModal
 						showModal={showModal}
@@ -160,12 +156,12 @@ function Checkout(props) {
 							<div
 								className={isMobile ? "" : "example-wrapper2"}
 								style={{
-									margin: "15px 30px",
+									margin: "10px 20px",
 
 								}}
 							>
 								<div className={isMobile ? "gift-card_mob" : "gift-card"}>
-									<div className={isMobile ? "gift-card__image_mob" : "gift-card__image"}
+									<div className={isMobile ? "gift-card__image_mob1" : "gift-card__image"}
 									     style={{backgroundImage: `url(${card.image})`,}}/>
 								</div>
 							</div>
@@ -184,7 +180,7 @@ function Checkout(props) {
 								>
 
 									<p className={isMobile ? 'mob-flex' : null} style={{
-										fontSize: "18px",
+										fontSize: "16px",
 										textTransform: "uppercase",
 										fontWeight: '500'
 									}}>
@@ -249,29 +245,30 @@ function Checkout(props) {
 											maxWidth: "400px",
 										}}
 									>
+										<div style={{display: 'flex'}}>
+											<input type="text" placeholder="2%-ын coupon код оруулах"
+											       onChange={(event) => setCode(event.target.value)}
+											       style={{
+												       width: "100%",
+												       height: "90%",
+												       display: "inline-flex",
+												       justifyContent: "center",
+												       alignItems: "center",
+												       fontSize: '16px',
+												       color: "#000",
 
-										<input type="text" placeholder="2%-ын coupon код оруулах"
-										       onChange={(event) => setCode(event.target.value)}
-										       style={{
-											       width: "100%",
-											       height: "90%",
-											       display: "inline-flex",
-											       justifyContent: "center",
-											       alignItems: "center",
-											       fontSize: '18px',
-											       color: "#000",
-
-										       }}/>
-										<button
-											onClick={() => couponClick(code)}
-											style={{
-												backgroundColor: "#00FFEF",
-												width: "",
-												height: "90%",
-											}}
-										>
-											ЭНД ДАР
-										</button>
+											       }}/>
+											<button
+												onClick={() => couponClick(code)}
+												style={{
+													backgroundColor: "#00FFEF",
+													width: "",
+													height: "90%",
+												}}
+											>
+												ЭНД ДАР
+											</button>
+										</div>
 									</div>
 									<div
 										style={{
@@ -430,23 +427,28 @@ function Checkout(props) {
 					</Container>
 				</div>
 				<GiftSlide voucher={filteredPro} checkout={true}/>
-				{
-					user ? (
-						<React.Fragment>
-							<Container>
-								<div style={{marginTop: "20px", marginBottom: "20px"}}>
+				<Container>
+					<div style={{marginTop: "20px", marginBottom: "20px"}}>
+                            <span style={{
+	                            fontWeight: "bold",
+	                            padding: "10px 10px",
+	                            marginTop: '20px'
+                            }}>Таньд санал болгох бараа</span>
+					</div>
+				</Container>
+				<GiftSlide voucher={shuffleData} checkout={true} tandSanal={true}/>
+
+
+				<Container>
+					<div style={{marginTop: "20px", marginBottom: "20px"}}>
                             <span style={{
 	                            fontWeight: "bold",
 	                            padding: "10px 10px",
 	                            marginTop: '20px'
                             }}>Сүүлд үзсэн бараанууд</span>
-								</div>
-							</Container>
-							<GiftSlide voucher={vzsen} checkout={true}/>
-						</React.Fragment>
-					) : ''
-				}
-
+					</div>
+				</Container>
+				<SvvldVzsenSlidde voucher={svvldVzsen} checkout={true}/>
 			</Container>
 			<Footer/>
 		</ActivityContainer>

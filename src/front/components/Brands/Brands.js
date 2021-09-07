@@ -29,7 +29,7 @@ class Brands extends Component {
 
         return (
             <Container fluid>
-                <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
+                <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: ''}}>
                     {
                         this.props.brands.map((brand, index) => (
                             <div key={index} style={{backgroundColor: 'green', width: '', height: '', margin: '10px 10px'}}>

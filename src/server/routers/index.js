@@ -147,6 +147,7 @@ function renderIndex(initialState) {
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+        
         <script></script>
       </head>
       <body>
@@ -181,6 +182,7 @@ function renderIndex(initialState) {
         <script>
             window.__INITIAL_STATE__ = ${JSON.stringify(initialState)}
         </script>  
+        <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
         <script src="/dist/bundle.js"></script>
       </body>
     </html>

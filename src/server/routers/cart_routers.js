@@ -120,7 +120,7 @@ module.exports = (router) => {
 									return res.json({
 										success: true,
 										sucmod: true,
-										message: "Амжилттай хадгалагдлаа",
+										// message: "Амжилттай хадгалагдлаа",
 										result: data,
 										edit: false,
 									});

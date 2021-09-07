@@ -6,7 +6,7 @@ import {saveCart} from "../../actions/cart_actions";
 import {connect} from 'react-redux';
 
 
-class GiftSlide extends Component {
+class SvvldVzsenSlidde extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -27,7 +27,7 @@ class GiftSlide extends Component {
 
 	render() {
 		const params = this.props.checkout ? {
-			slidesPerView: 4,
+			slidesPerView: 8,
 			spaceBetween: 0,
 			containerClass: "swiper-container mainSlider",
 			centeredSlides: false,
@@ -41,15 +41,15 @@ class GiftSlide extends Component {
 			},
 			breakpoints: {
 				768: {
-					slidesPerView: 4,
+					slidesPerView: 7,
 					spaceBetween: 0
 				},
 				640: {
-					slidesPerView: 2,
+					slidesPerView: 5,
 					spaceBetween: 0
 				},
 				320: {
-					slidesPerView: 2,
+					slidesPerView: 3,
 					spaceBetween: 0
 				},
 			},
@@ -101,7 +101,7 @@ class GiftSlide extends Component {
 		this.props.voucher.map((item, index) => {
 			const ht = <div key={index} style={{display: "flex", justifyContent: 'space-around'}}>
 				<div className="example-wrapper">
-					<div className={isMobile ? "gift-card-mob" : "gift-card"} onClick={() => self.saveMe(item._id)}>
+					<div className={isMobile ? "gift-card-mob" : "gift-card1"} onClick={() => self.saveMe(item._id)}>
 						<Link to={`/checkout/${item._id}`} style={{textDecoration: "none"}}>
 							<div
 								className={isMobile ? "gift-card__image_mob" : "gift-card__image"}
@@ -150,5 +150,5 @@ const mapDispatchToProps = (dispatch) => {
 		saveCart: (data) => dispatch(saveCart(data))
 	}
 };
-export default connect(null, mapDispatchToProps)(GiftSlide)
+export default connect(null, mapDispatchToProps)(SvvldVzsenSlidde)
 

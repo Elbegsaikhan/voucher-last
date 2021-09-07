@@ -9,10 +9,16 @@ import Cards from './Card/Cards.js'
 const reducer = ({product}) => ({product});
 
 class MenWomen extends Component {
-    render() {
-        let {product: {cards}} = this.props
-        const datas = Object.values(cards)
+    constructor(props) {
+        super(props);
+        console.log("Const" ,props)
+    }
 
+    render() {
+        // let {product: {cards}} = this.props
+        // const datas = Object.values(cards)
+        let datas = localStorage.getItem('productLocal')
+        datas = JSON.parse(datas)
         return (
             <React.Fragment>
                 <Header

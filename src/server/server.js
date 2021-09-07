@@ -65,7 +65,10 @@ app.use(webRouter);
 
 
 if(env === 'development') {
-    mongoose.connect("mongodb://localhost:27017/surgaltuud");
+    // mongoose.connect("mongodb://localhost:27017/surgaltuud");
+    mongoose.connect("mongodb+srv://mern:admin1234@cluster0.mqtoc.mongodb.net/vouchers?retryWrites=true&w=majority",
+        {"useNewUrlParser": true, "useUnifiedTopology": true})
+
 } else {
     mongoose.connect(configServer.mongoUrl, configServer.option);
 }

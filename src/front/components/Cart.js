@@ -23,17 +23,20 @@ function Cart(props) {
 	const {cards} = product
 	let {items} = cart
 	items = items.filter((it) => it.type === 1)
+	items = localStorage.getItem('cart')
+	items = JSON.parse(items)
+	items = items[0]
 	const datas = Object.values(cards)
 	const its = Object.values(items)
 	let arr = []
-	for(let i in datas){
-		for(let j in its){
-			if(datas[i]._id === its[j].product){
+	for (let i in datas) {
+		for (let j in its) {
+			if (datas[i]._id === its[j].product) {
 				arr.push(datas[i])
 			}
 		}
 	}
-	console.log("Arrr", arr)
+	console.log("Arrr", arr.length)
 	return (
 		<React.Fragment>
 			<Header
@@ -42,7 +45,20 @@ function Cart(props) {
 			/>
 			<div>
 				<ActivityContainer loading={false}>
-					<Cards voucher={arr}/>
+					{
+						arr.length === 0 ? (
+							<React.Fragment>
+
+								<div style={{display: 'flex', justifyContent: 'center', padding: '50px'}}>
+									<img src={"/uploads/2021/05/empty.png"}/>
+								</div>
+								<p style={{fontSize: '1.5rem', textAlign: 'center'}}>Таны сагс хоосон байна</p>
+							</React.Fragment>
+						) : (
+							<Cards voucher={arr}/>
+
+						)
+					}
 				</ActivityContainer>
 			</div>
 			<Footer/>

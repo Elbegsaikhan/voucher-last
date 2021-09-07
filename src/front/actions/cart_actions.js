@@ -7,6 +7,6 @@ export function getCart() {
 }
 export function saveCart(data){
     let url = '/api/save/cart'
-    // console.log("Product action line 11", data)
+    console.log("Product action line 11", data)
     return networkActions.requestPost(constants.saveCart, url, data)
 }
