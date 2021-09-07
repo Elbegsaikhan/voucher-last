@@ -55,10 +55,8 @@ class Home extends Component {
 			cart: {items, all}
 		} = this.props;
 		const svvld = items.filter((itt) => itt.type === 2)
-		console.log("Svvld vzsen", svvld)
 		localStorage.setItem("svvld", JSON.stringify(Object.values(svvld)))
 		if (user) {
-			console.log("USER", user)
 			const g = items.filter((itt) => itt.type === 1 && itt.user === user._id)
 			const gl = g.length
 			localStorage.setItem('cart', JSON.stringify(Object.values({g, gl})))
