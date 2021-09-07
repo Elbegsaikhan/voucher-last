@@ -91,7 +91,7 @@ module.exports = (router) => {
 									return res.json({
 										success: true,
 										sucmod: true,
-										message: "Сагсанд амжилттай нэмлээ",
+										// message: "Сагсанд амжилттай нэмлээ",
 										result: data,
 										edit: true,
 									});
