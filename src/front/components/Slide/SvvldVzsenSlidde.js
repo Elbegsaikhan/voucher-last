@@ -45,11 +45,11 @@ class SvvldVzsenSlidde extends Component {
 					spaceBetween: 0
 				},
 				640: {
-					slidesPerView: 5,
+					slidesPerView: 3,
 					spaceBetween: 0
 				},
 				320: {
-					slidesPerView: 3,
+					slidesPerView: 2,
 					spaceBetween: 0
 				},
 			},
