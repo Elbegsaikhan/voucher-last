@@ -90,7 +90,7 @@ module.exports = (router) => {
 								if (data) {
 									return res.json({
 										success: true,
-										sucmod: true,
+										// sucmod: true,
 										// message: "Сагсанд амжилттай нэмлээ",
 										result: data,
 										edit: true,
@@ -119,8 +119,8 @@ module.exports = (router) => {
 								if (data) {
 									return res.json({
 										success: true,
-										sucmod: true,
-										// message: "Амжилттай хадгалагдлаа",
+										// sucmod: true,
+										// // message: "Амжилттай хадгалагдлаа",
 										result: data,
 										edit: false,
 									});
@@ -185,8 +185,9 @@ module.exports = (router) => {
 			}
 		}
 	);
-	router.get("/delete/cart/:id", auth.company, function (req, res) {
-		Cart.findOne({_id: req.params.id, status: "active"}).exec(function (
+	router.get("/delete/cart/:id", function (req, res) {
+		console.log(req.params.id)
+		Cart.findOne({product: req.params.id, status: "active"}).exec(function (
 			err,
 			cart
 		) {
@@ -210,7 +211,7 @@ module.exports = (router) => {
 						return res.json({
 							success: true,
 							sucmod: true,
-							message: "Амжилттай услтгагдлаа",
+							message: "Амжилттай устгагдлаа",
 							id: req.params.id,
 						});
 					} else {
@@ -229,17 +230,5 @@ module.exports = (router) => {
 		});
 	});
 
-	// router.post("/cart", (req, res) => {
-	//     const body = req.body;
-	//     console.log("Product", req.body);
-	//     const cart = new Cart(body);
-	//
-	//     res.send(body);
-	//     try {
-	//         cart.save();
-	//         res.status(200).json({ success: "SAve" });
-	//     } catch (error) {
-	//         res.status(409).json({ error: error.message });
-	//     }
-	// });
+
 };

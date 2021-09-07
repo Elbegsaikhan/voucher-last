@@ -68,6 +68,11 @@ export const deleteCart = {
     RESPONSE:'FETCH_DELETE_CART_RESPONSE'
 };
 
+export const deleteCartOne = {
+    REQUEST:'FETCH_DELETE_CARTONE_REQUEST',
+    RESPONSE:'FETCH_DELETE_CARTONE_RESPONSE'
+};
+
 export const saveWithdraw = {
     REQUEST:'FETCH_SAVE_Withdraw_REQUEST',
     RESPONSE:'FETCH_SAVE_Withdraw_RESPONSE'

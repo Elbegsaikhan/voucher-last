@@ -67,6 +67,25 @@ export default function cart(state = iniState, action){
                     ...state,
                 }
             }
+        case actionTypes.deleteCartOne.REQUEST:
+            return {
+                ...state,
+                itemLoading: true
+            };
+        case actionTypes.deleteCartOne.RESPONSE:
+            if(action.json.success) {
+                let s = action.json.success
+                return{
+                    ...state,
+                    success: 'true',
+                    itemLoading: false
+                };
+            } else {
+                return{
+                    ...state,
+                    itemLoading: false
+                };
+            }
         default:
             return {
                 ...state

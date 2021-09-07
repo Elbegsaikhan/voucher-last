@@ -2,8 +2,10 @@ import React, {Component} from "react";
 import Swiper from "react-id-swiper";
 import {isMobile, isMobileOnly} from "react-device-detect";
 import {Link} from "react-router-dom";
-import {saveCart} from "../../actions/cart_actions";
+import {saveCart, deleteCart} from "../../actions/cart_actions";
 import {connect} from 'react-redux';
+import Icon from "@mdi/react";
+import {mdiClose} from "@mdi/js";
 
 
 class SvvldVzsenSlidde extends Component {
@@ -23,6 +25,11 @@ class SvvldVzsenSlidde extends Component {
 			console.error(error);
 		}
 
+	}
+	deleteCart = (id) => {
+		console.log("Props", this.props)
+		console.log("delete")
+		this.props.deleteCart(id)
 	}
 
 	render() {
@@ -100,6 +107,15 @@ class SvvldVzsenSlidde extends Component {
 		const self = this
 		this.props.voucher.map((item, index) => {
 			const ht = <div key={index} style={{display: "flex", justifyContent: 'space-around'}}>
+				<div className="close">
+					<Icon
+						onClick={() => self.deleteCart(item._id)}
+						path={mdiClose}
+						size={1}
+						color="#000"
+						style={{cursor: "pointer"}}
+					/>
+				</div>
 				<div className="example-wrapper">
 					<div className={isMobile ? "gift-card-mob" : "gift-card1"} onClick={() => self.saveMe(item._id)}>
 						<Link to={`/checkout/${item._id}`} style={{textDecoration: "none"}}>
@@ -147,7 +163,7 @@ class SvvldVzsenSlidde extends Component {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		saveCart: (data) => dispatch(saveCart(data))
+		deleteCart: (id) => dispatch(deleteCart(id))
 	}
 };
 export default connect(null, mapDispatchToProps)(SvvldVzsenSlidde)

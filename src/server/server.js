@@ -75,7 +75,7 @@ if(env === 'development') {
 // mongoose.connect(config.mongoUrl);
 mongoose.connection.on('open', function (ref) {
     winston.info('db connected');
-    app.listen(process.env.PORT || '8824',function (err) {
+    app.listen(process.env.PORT || '8826',function (err) {
         if(err){
             winston.error('app start error');
             winston.error(err);
