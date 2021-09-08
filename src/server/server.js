@@ -65,9 +65,9 @@ app.use(webRouter);
 
 
 if(env === 'development') {
-    // mongoose.connect("mongodb://localhost:27017/surgaltuud");
-    mongoose.connect("mongodb+srv://mern:admin1234@cluster0.mqtoc.mongodb.net/vouchers?retryWrites=true&w=majority",
-        {"useNewUrlParser": true, "useUnifiedTopology": true})
+    mongoose.connect("mongodb://localhost:27017/surgaltuud");
+    // mongoose.connect("mongodb+srv://mern:admin1234@cluster0.mqtoc.mongodb.net/vouchers?retryWrites=true&w=majority",
+    //     {"useNewUrlParser": true, "useUnifiedTopology": true})
 
 } else {
     mongoose.connect(configServer.mongoUrl, configServer.option);
@@ -75,7 +75,7 @@ if(env === 'development') {
 // mongoose.connect(config.mongoUrl);
 mongoose.connection.on('open', function (ref) {
     winston.info('db connected');
-    app.listen(process.env.PORT || '8826',function (err) {
+    app.listen(process.env.PORT || '8824',function (err) {
         if(err){
             winston.error('app start error');
             winston.error(err);
