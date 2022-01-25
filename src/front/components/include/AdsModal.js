@@ -59,7 +59,7 @@ export default function AdsModal({showModal, setShowModal, config}) {
 								/>
 							</div>
 							<div className="modal-content">
-								<img src={config.homeBanner1} width={isMobile ? "250px" : "600px"}
+								<img src={config.homeBanner1} width={isMobile ? "100%" : "600px"}
 								     style={{backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}}/>
 							</div>
 						</div>

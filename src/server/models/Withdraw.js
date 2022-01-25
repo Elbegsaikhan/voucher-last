@@ -7,12 +7,13 @@ var deepPopulate = require("mongoose-deep-populate")(mongoose);
 let WithdrawSchema = mongoose.Schema({
     amount: Number,
     sku: String,
-    product: {type: ObjectId, ref: 'Product'},
-    user: {type: ObjectId, ref: 'User'},
+    product: { type: ObjectId, ref: 'Product' },
+    user: { type: ObjectId, ref: 'User' },
     companyID: String,
-    status: {type: String, enum: ["active", "pending", "delete"], default: 'pending'},
-    delivery: {type: String, enum: ['hvrgej', 'hvrgsen', 'hvleegdej'], default: 'hvleegdej'},
-    created: {type: Date, default: new Date()},
+    info: String,
+    status: { type: String, enum: ["active", "pending", "delete"], default: 'pending' },
+    delivery: { type: String, enum: ['hvrgej', 'hvrgsen', 'hvleegdej'], default: 'hvleegdej' },
+    created: { type: Date, default: new Date() },
 
 })
 WithdrawSchema.plugin(deepPopulate, {
@@ -27,4 +28,3 @@ WithdrawSchema.plugin(deepPopulate, {
     },
 });
 module.exports = mongoose.model("Withdraw", WithdrawSchema);
-

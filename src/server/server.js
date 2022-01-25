@@ -14,7 +14,7 @@ import webpack_hot_middleware from "webpack-hot-middleware";
 
 const app = express();
 const logPath = path.resolve(__dirname, "../../logs");
-if(env === "development"){
+if (env === "development") {
     let adminReactCompiler = webpack(webpackConfig);
 
     app.use(webpack_dev_middleware(adminReactCompiler, {
@@ -27,14 +27,14 @@ if(env === "development"){
 
 
 var configServer = {
-    mongoUrl:'mongodb://103.143.40.220:27017/voucher',
+    mongoUrl: 'mongodb://103.143.40.220:27017/voucher',
     option: {
         "auth": { "authSource": "admin" },
         "user": "amjilt",
         "pass": "shijircom",
         "useMongoClient": true
     },
-    logPath:path.resolve(__dirname,"logs")
+    logPath: path.resolve(__dirname, "logs")
 };
 // const config = {
 //     mongoUrl:'mongodb://localhost/ipex',
@@ -45,9 +45,9 @@ app.use(cookieParser());
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 app.set('view engine', 'pug');
-app.set('views', path.resolve(__dirname,'../views'));
-winston.add(winston.transports.File, { filename: logPath+'/error.log', name: 'error-file', level: 'error'});
-app.use('/',express.static(path.join(__dirname, '../../static')));
+app.set('views', path.resolve(__dirname, '../views'));
+winston.add(winston.transports.File, { filename: logPath + '/error.log', name: 'error-file', level: 'error' });
+app.use('/', express.static(path.join(__dirname, '../../static')));
 
 app.use(session({
     resave: false,
@@ -64,8 +64,8 @@ require('./routers')(webRouter);
 app.use(webRouter);
 
 
-if(env === 'development') {
-    mongoose.connect("mongodb://localhost:27017/surgaltuud");
+if (env === 'development') {
+    mongoose.connect("mongodb://localhost:27017/vouchers");
     // mongoose.connect("mongodb+srv://mern:admin1234@cluster0.mqtoc.mongodb.net/vouchers?retryWrites=true&w=majority",
     //     {"useNewUrlParser": true, "useUnifiedTopology": true})
 
@@ -75,17 +75,16 @@ if(env === 'development') {
 // mongoose.connect(config.mongoUrl);
 mongoose.connection.on('open', function (ref) {
     winston.info('db connected');
-    app.listen(process.env.PORT || '8824',function (err) {
-        if(err){
+    app.listen(process.env.PORT || '8824', function (err) {
+        if (err) {
             winston.error('app start error');
             winston.error(err);
             process.exit(1)
-        }else{
+        } else {
             winston.info('app started port: %s', '8824')
         }
     });
 });
-mongoose.connection.on('error',function (error) {
+mongoose.connection.on('error', function (error) {
     winston.error(error);
 });
-

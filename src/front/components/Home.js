@@ -1,8 +1,8 @@
-import React, {Component} from "react";
-import {connect} from "react-redux";
-import {getHome} from "../actions/home_actions";
-import {getProduct} from "../actions/product_actions";
-import {getCart} from '../actions/cart_actions'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { getHome } from "../actions/home_actions";
+import { getProduct } from "../actions/product_actions";
+import { getCart } from '../actions/cart_actions'
 import ActivityContainer from "./include/ActivityContainer";
 import Header from "./include/Header";
 import Footer from "./include/Footer";
@@ -12,10 +12,10 @@ import Brands from "./Brands/Brands";
 import BannerSlide from "./Slide/BannerSlide";
 import Category from "./include/Category";
 import CateSlide from "./Slide/CateSlide";
-import {isMobileOnly, isMobile} from "react-device-detect";
-import {Link} from "react-router-dom";
+import { isMobileOnly, isMobile } from "react-device-detect";
+import { Link } from "react-router-dom";
 
-const reducer = ({home, main, product, cart}) => ({home, main, product, cart});
+const reducer = ({ home, main, product, cart }) => ({ home, main, product, cart });
 
 class Home extends Component {
 	constructor(props) {
@@ -29,8 +29,9 @@ class Home extends Component {
 			searchTitle: ''
 		};
 		this.myRef = React.createRef()
-		this.ref2 = React.createRef()
+		this.saleRef = React.createRef()
 		this.cateRef = React.createRef()
+		this.trendRef = React.createRef()
 	}
 
 	componentDidMount() {
@@ -42,7 +43,7 @@ class Home extends Component {
 
 	render() {
 		const {
-			main: {config, user},
+			main: { config, user },
 			home: {
 				loading,
 				cates,
@@ -51,19 +52,19 @@ class Home extends Component {
 				companyGold,
 				companyPlatinum,
 			},
-			product: {cards},
-			cart: {items, all}
+			product: { cards },
+			cart: { items, all }
 		} = this.props;
 		const svvld = items.filter((itt) => itt.type === 2)
 		localStorage.setItem("svvld", JSON.stringify(Object.values(svvld)))
 		if (user) {
 			const g = items.filter((itt) => itt.type === 1 && itt.user === user._id)
 			const gl = g.length
-			localStorage.setItem('cart', JSON.stringify(Object.values({g, gl})))
+			localStorage.setItem('cart', JSON.stringify(Object.values({ g, gl })))
 		} else {
 			const a = ''
 			const aa = 0
-			localStorage.setItem('cart', JSON.stringify(Object.values({a, aa})))
+			localStorage.setItem('cart', JSON.stringify(Object.values({ a, aa })))
 		}
 		localStorage.setItem('productLocal', JSON.stringify(Object.values(cards)))
 		let c = 0
@@ -93,7 +94,7 @@ class Home extends Component {
 				});
 			}
 			if (item.position === 1) {
-				slide.push({image: item.image})
+				slide.push({ image: item.image })
 			}
 		});
 		let sliders3 = (sliders || []).filter((aa) => aa.position === 3);
@@ -110,27 +111,29 @@ class Home extends Component {
 		let bannerArr = [sliders3, sliders4, sliders5, sliders6];
 		const scrollWindow = (ref) => {
 			if (ref === 'myRef') {
-				this.myRef.current.scrollIntoView({behavior: "smooth",})
-			} else if (ref === 'ref2') {
-				this.ref2.current.scrollIntoView({behavior: "smooth",})
+				this.myRef.current.scrollIntoView({ behavior: "smooth", })
+			} else if (ref === 'saleRef') {
+				this.saleRef.current.scrollIntoView({ behavior: "smooth", })
+			} else if (ref === 'trendRef') {
+				this.trendRef.current.scrollIntoView({ behavior: "smooth", })
 			}
 
 		}
 		const showCategory = (slug) => {
 
-			this.setState({cate: slug[0]})
-			this.setState({cateName: slug[1]})
-			this.setState({showCate: true})
-			this.setState({showSearch: false})
-			this.cateRef.current.scrollIntoView({behavior: "smooth"})
+			this.setState({ cate: slug[0] })
+			this.setState({ cateName: slug[1] })
+			this.setState({ showCate: true })
+			this.setState({ showSearch: false })
+			this.cateRef.current.scrollIntoView({ behavior: "smooth" })
 
 		}
 		let searchData = []
 		const searchPro = (title) => {
-			this.setState({searchTitle: title})
-			this.setState({showSearch: true})
-			this.setState({showCate: false})
-			this.cateRef.current.scrollIntoView({behavior: "smooth"})
+			this.setState({ searchTitle: title })
+			this.setState({ showSearch: true })
+			this.setState({ showCate: false })
+			this.cateRef.current.scrollIntoView({ behavior: "smooth" })
 
 		}
 		return (
@@ -152,7 +155,7 @@ class Home extends Component {
 						lott={true}
 					/>
 					{/*<lottie-player src="https://assets8.lottiefiles.com/datafiles/mJgqrjZG0XgEPTG/data.json" mode="bounce" background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop  autoplay/>*/}
-					<div className="table center" style={{zIndex: 10}}>
+					<div className="table center" style={{ zIndex: 10 }}>
 						<div className="monitor-wrapper center">
 							<div className="monitor center">
 								<p>Хүнээс аваагүй миний воучер хүнд өгөхгүй ганцхан миний воучер О. Дашбалбар</p>
@@ -174,15 +177,16 @@ class Home extends Component {
 							>
 
 								<div
-									style={{height: "auto", display: "flex", justifyContent: 'center'}}
+									style={{ height: "auto", display: "flex", justifyContent: 'center' }}
 								>
 									<img
 										src={item.image}
 										style={{
 											margin: "10px",
 											width: isMobile ? "98%" : "100%",
-											height: isMobile ? "700px" : "900px",
+											height: 'auto',
 											backgroundSize: "cover",
+											objectFit: 'cover',
 											backgroundRepeat: 'no-repeat'
 										}}
 									/>
@@ -194,7 +198,7 @@ class Home extends Component {
 										height: "100px",
 										zIndex: 9,
 										textAlign: "center",
-										bottom: "-40px",
+										bottom: isMobile ? "-30%" : '-40px',
 										// top: 0
 									}}
 								>
@@ -207,32 +211,31 @@ class Home extends Component {
 									>
 										<div
 											style={{
-												height: "100px",
+												height: isMobile ? "70px" : "100px",
 												width: isMobileOnly ? "200px" : "300px",
 												backgroundColor: item.color,
 												cursor: "pointer",
-												borderRadius: "2px"
+												borderRadius: "2px",
+												display: 'flex',
+												alignItems: 'center',
+												justifyContent: 'center'
 											}}
 										>
-											<Link to={`/cate/${item.c}`} style={{textDecoration: "none"}}>
-
+											<Link to={`/cate/${item.c}`} style={{ textDecoration: "none" }}>
 												<div
 													style={{
 														color: "white",
 														fontWeight: 800,
-														fontSize: "24px",
-														marginTop: "20px",
+														fontSize: "1.2rem",
 													}}
 												>
 													{item.title}
 												</div>
-
-
 												<div
 													style={{
 														color: "white",
 														fontWeight: 600,
-														fontSize: "18px",
+														fontSize: "1rem",
 													}}
 												>
 													Shop Now
@@ -248,27 +251,29 @@ class Home extends Component {
 
 					{/*Бэлгийн картнууд*/}
 					<div className="banner-image">
-						<img src={sliders8[0] && sliders8[0]} style={{width: "100%", backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}}/>
+						<img src={sliders8[0] && sliders8[0]} style={{ width: "100%", objectFit: 'cover', backgroundRepeat: 'no-repeat' }} />
 					</div>
-					<div ref={this.ref2}>
-						<Cards image="uploads/2021/08/ygodoo.jpg" voucher={sale} user={user}/>
+					<div ref={this.saleRef}>
+						<Cards image="uploads/2021/08/ygodoo.jpg" voucher={sale} user={user} />
 					</div>
 					{/*Тренд бэлгийн картнууд*/}
 					<div className="banner-image">
-						<img src={sliders8[1] && sliders8[1]} style={{width: "100%", backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}}/>
+						<img src={sliders8[1] && sliders8[1]} style={{ width: "100%", objectFit: 'cover', backgroundRepeat: 'no-repeat' }} />
 					</div>
-					<Cards
-						image="uploads/2021/08/sale.jpg"
-						voucher={trend}
-						user={user}
-					/>
+					<div ref={this.trendRef}>
+						<Cards
+							image="uploads/2021/08/sale.jpg"
+							voucher={trend}
+							user={user}
+						/>
+					</div>
 
 					<div className="banner-image">
-						<img src={sliders8[2] && sliders8[2]} style={{width: "100%", backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}}/>
+						<img src={sliders8[2] && sliders8[2]} style={{ width: "100%", objectFit: 'cover', backgroundRepeat: 'no-repeat' }} />
 					</div>
 					{/*<CustomCard/>*/}
-					<Category show={showCategory}/>
-					<div ref={this.cateRef}/>
+					<Category show={showCategory} />
+					<div ref={this.cateRef} />
 					{
 						this.state.showCate ? (
 							<div>
@@ -282,13 +287,13 @@ class Home extends Component {
 									color: '#000',
 									marginBottom: '10px'
 								}}>
-                                    <span style={{
-	                                    color: "#fff",
-	                                    fontSize: '2rem',
-	                                    fontWeight: '600',
-	                                    textTransform: 'lowercase'
-                                    }}>{this.state.cateName.charAt(0).toUpperCase()}</span></div>
-								<CateSlide voucher={datas.filter((d) => d.category._id === this.state.cate)}/>
+									<span style={{
+										color: "#fff",
+										fontSize: '2rem',
+										fontWeight: '600',
+										textTransform: 'lowercase'
+									}}>{this.state.cateName.charAt(0).toUpperCase()}</span></div>
+								<CateSlide voucher={datas.filter((d) => d.category._id === this.state.cate)} />
 							</div>
 						) : null
 					}
@@ -305,39 +310,39 @@ class Home extends Component {
 									color: '#000',
 									marginBottom: '10px'
 								}}>
-                                    <span
-	                                    style={{color: "#fff", fontSize: '2rem', fontWeight: '600', textTransform: 'lowercase'}}>Хайлтын илэрц</span>
+									<span
+										style={{ color: "#fff", fontSize: '2rem', fontWeight: '600', textTransform: 'lowercase' }}>Хайлтын илэрц</span>
 								</div>
-								<CateSlide voucher={datas.filter((d) => d.title === this.state.searchTitle)}/>
+								<CateSlide voucher={datas.filter((d) => d.title === this.state.searchTitle)} />
 							</div>
 						) : null
 					}
 					{/*Брэнд буюу Компани байх хэсэг*/}
 					<Link to={"/brands"}>
 						<div className="banner-image">
-							<img src={sliders8[3] && sliders8[3]} style={{width: "100%", backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}}/>
+							<img src={sliders8[3] && sliders8[3]} style={{ width: "100%", objectFit: 'cover', backgroundRepeat: 'no-repeat' }} />
 						</div>
 					</Link>
 					<div ref={this.myRef}>
-						<Brands brands={companyGold}/>
+						<Brands brands={companyGold} />
 					</div>
 
 					<div className="banner-image">
-						<img src={sliders8[4] && sliders8[4]} style={{width: "100%", backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}}/>
+						<img src={sliders8[4] && sliders8[4]} style={{ width: "100%", objectFit: 'cover', backgroundRepeat: 'no-repeat' }} />
 					</div>
 					<div style={{}}>
 						{bannerArr
 							.filter((ban) => ban.length > 0)
 							.map((ban, index) => (
-								<BannerSlide slides={ban} height="500px"/>
+								<BannerSlide slides={ban} height="500px" />
 							))}
 					</div>
 					{/*<div style={{ height: "30px" }}>/!*<h1>asd</h1>*!/</div>*/}
 				</ActivityContainer>
-				<Footer/>
+				<Footer />
 			</React.Fragment>
 		);
 	}
 }
 
-export default connect(reducer, {getHome, getProduct, getCart})(Home);
+export default connect(reducer, { getHome, getProduct, getCart })(Home);

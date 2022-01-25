@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useCallback, useState } from "react";
-import {useSelector, useDispatch} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useSpring, animated } from "react-spring";
 import Icon from "@mdi/react";
 import {
@@ -47,7 +47,7 @@ export default function VerifModal({ showModal, setShowModal, company, total }) 
     return (
         <div>
             {showModal ? (
-                <div className="back-style" onClick={closeModal} ref={modalRef}>
+                <div className="back-style verif-modal" onClick={closeModal} ref={modalRef}>
                     <animated.div style={animation}>
                         <div className="modal-style" showModal={showModal}>
                             {/* <img className="modal-img" src={"/uploads/2021/07/1627022384680.jpg"} alt="camera" /> */}
@@ -81,7 +81,7 @@ export default function VerifModal({ showModal, setShowModal, company, total }) 
                                                         fontWeight: "500",
                                                     }}
                                                 >
-                                                   {company.accountName}
+                                                    {company.accountName}
                                                 </span>
                                             </Col>
                                             <Col xs={2}>

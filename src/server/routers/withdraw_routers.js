@@ -2,8 +2,8 @@ import auth from "../../auth.js";
 import Withdraw from "../models/Withdraw";
 import winston from "winston";
 import async from "async";
-import {check, validationResult} from "express-validator/check";
-import {matchedData} from "express-validator/filter";
+import { check, validationResult } from "express-validator/check";
+import { matchedData } from "express-validator/filter";
 // import Product from '../models'
 import User from "../models/User";
 import Product from "../models/Product";
@@ -18,10 +18,10 @@ module.exports = function (router) {
         if (isNaN(start)) {
             start = 0;
         }
-        Product.find({status: "active", companyId: req.user._id}).exec(function (err, products) {
+        Product.find({ status: "active", companyId: req.user._id }).exec(function (err, products) {
             if (err) {
                 winston.error(err);
-                return res.status(200).json({success: false, message: "Системд алдаа гарлаа"});
+                return res.status(200).json({ success: false, message: "Системд алдаа гарлаа" });
             } else {
 
                 // let arrs = [];
@@ -36,8 +36,8 @@ module.exports = function (router) {
                     [
                         function (callback) {
                             Withdraw.find({
-                                status: {$ne: "delete"},
-                                product: {$in: (products || []).map(aa => aa._id)},
+                                status: { $ne: "delete" },
+                                product: { $in: (products || []).map(aa => aa._id) },
                             }).populate(["user", "product"])
                                 .exec(function (err, result) {
                                     callback(err, result);
@@ -45,14 +45,14 @@ module.exports = function (router) {
                         },
                         function (callback) {
                             Withdraw.count({
-                                status: {$ne: "delete"},
-                                product: {$in: (products || []).map(aa => aa._id)}
+                                status: { $ne: "delete" },
+                                product: { $in: (products || []).map(aa => aa._id) }
                             }).exec(function (err, result) {
                                 callback(err, result);
                             });
                         },
                         function (callback) {
-                            User.find({status: "active", _id: req.user._id}).exec(function (err, result) {
+                            User.find({ status: "active", _id: req.user._id }).exec(function (err, result) {
                                 callback(err, result);
                             });
                         },
@@ -62,9 +62,9 @@ module.exports = function (router) {
                         // console.log("Result", results);
                         if (err) {
                             winston.error(err);
-                            return res.status(200).json({success: false, message: "Системд алдаа гарлаа"});
+                            return res.status(200).json({ success: false, message: "Системд алдаа гарлаа" });
                         } else {
-                            return res.json({success: true, items: results[0] || [], all: results[1], user: results[2]});
+                            return res.json({ success: true, items: results[0] || [], all: results[1], user: results[2] });
                         }
                     }
                 );
@@ -79,47 +79,47 @@ module.exports = function (router) {
             start = 0;
         }
         async.parallel([
-            function(callback){
-                Withdraw.find({ status: {$ne : "delete"}, user : req.user._id}).exec(function(err, result) {
+            function (callback) {
+                Withdraw.find({ status: { $ne: "delete" }, user: req.user._id }).exec(function (err, result) {
                     callback(err, result)
                 })
             },
-            function (callback){
-                Withdraw.count({status: {$ne : "delete"}, user : req.user._id}, function (err, result){
+            function (callback) {
+                Withdraw.count({ status: { $ne: "delete" }, user: req.user._id }, function (err, result) {
                     callback(err, result)
                 })
             }
-        ], function(err, results) {
-            if(err){
+        ], function (err, results) {
+            if (err) {
                 winston.error(err)
-                return res.status(200).json({success: false, message: 'Withdraw router dr aldaa'})
-            }else {
-                return res.json({ success: true, item: results[0] || [], all: results[1]})
+                return res.status(200).json({ success: false, message: 'Withdraw router dr aldaa' })
+            } else {
+                return res.json({ success: true, item: results[0] || [], all: results[1] })
             }
         })
 
     });
     router.get('/withdrawChangeStats', auth.company, function (req, res) {
-        Withdraw.findOne({_id: req.query.id}).exec(function (err, rqq) {
+        Withdraw.findOne({ _id: req.query.id }).exec(function (err, rqq) {
             if (err) {
                 winston.error(err);
-                return res.status(200).json({success: false, message: 'Системд алдаа гарлаа1'});
+                return res.status(200).json({ success: false, message: 'Системд алдаа гарлаа1' });
             } else if (rqq && (req.query.value === 'pending' || req.query.value === 'active')) {
                 rqq.status = req.query.value;
                 rqq.save(function (err, ssss) {
                     // console.log("SSS", ssss)
                     if (err) {
                         winston.error(err);
-                        return res.json({success: false, message: 'Системд алдаа гарлаа2'});
+                        return res.json({ success: false, message: 'Системд алдаа гарлаа2' });
                     } else {
-                        Withdraw.findOne({_id: ssss._id}).deepPopulate(['user', 'product']).exec(function (err, prodyc) {
+                        Withdraw.findOne({ _id: ssss._id }).deepPopulate(['user', 'product']).exec(function (err, prodyc) {
                             if (err) {
                                 winston.error(err);
-                                return res.status(200).json({success: false, message: 'Системд алдаа гарлаа3'});
+                                return res.status(200).json({ success: false, message: 'Системд алдаа гарлаа3' });
                             } else if (prodyc) {
-                                return res.json({success: true, item: prodyc});
+                                return res.json({ success: true, item: prodyc });
                             } else {
-                                return res.status(200).json({success: false, message: 'Системд алдаа гарлаа4'});
+                                return res.status(200).json({ success: false, message: 'Системд алдаа гарлаа4' });
                             }
                         })
                     }
@@ -130,22 +130,22 @@ module.exports = function (router) {
                     // console.log("SSS", ssss)
                     if (err) {
                         winston.error(err);
-                        return res.json({success: false, message: 'Системд алдаа гарлаа2'});
+                        return res.json({ success: false, message: 'Системд алдаа гарлаа2' });
                     } else {
-                        Withdraw.findOne({_id: ssss._id}).deepPopulate(['user', 'product']).exec(function (err, prodyc) {
+                        Withdraw.findOne({ _id: ssss._id }).deepPopulate(['user', 'product']).exec(function (err, prodyc) {
                             if (err) {
                                 winston.error(err);
-                                return res.status(200).json({success: false, message: 'Системд алдаа гарлаа3'});
+                                return res.status(200).json({ success: false, message: 'Системд алдаа гарлаа3' });
                             } else if (prodyc) {
-                                return res.json({success: true, item: prodyc});
+                                return res.json({ success: true, item: prodyc });
                             } else {
-                                return res.status(200).json({success: false, message: 'Системд алдаа гарлаа4'});
+                                return res.status(200).json({ success: false, message: 'Системд алдаа гарлаа4' });
                             }
                         })
                     }
                 });
             } else {
-                return res.status(200).json({success: false, message: 'Системд алдаа гарлаа5'});
+                return res.status(200).json({ success: false, message: 'Системд алдаа гарлаа5' });
             }
         })
     });
@@ -216,6 +216,7 @@ module.exports = function (router) {
             check("userID").trim(),
             check("productID").trim(),
             check("sku").trim(),
+            check("info").trim()
         ],
         function (req, res) {
             const errors = validationResult(req);
@@ -226,7 +227,7 @@ module.exports = function (router) {
                 });
             }
             let data = matchedData(req);
-            console.log("Data ", data);
+            console.log("Data nfo ", data);
 
             if (req.body.id === 0) {
                 let withdraw = new Withdraw();
@@ -235,6 +236,7 @@ module.exports = function (router) {
                 withdraw.product = data.productID;
                 withdraw.companyID = data.companyID;
                 withdraw.sku = data.sku;
+                withdraw.info = data.info
                 // withdraw.productId = data.productId;
                 withdraw.save(function (err, data) {
                     if (err) {
@@ -260,7 +262,7 @@ module.exports = function (router) {
                     }
                 });
             } else {
-                Withdraw.findOne({_id: req.body._id, status: "active"}).exec(function (err, withdraw) {
+                Withdraw.findOne({ _id: req.body._id, status: "active" }).exec(function (err, withdraw) {
                     if (err) {
                         winston.error(err);
                         return res.status(200).json({

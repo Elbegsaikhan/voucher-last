@@ -4,8 +4,6 @@ import {matchedData} from "express-validator/filter";
 import User from "../models/User";
 import Category from "../models/Category";
 import Location from "../models/Location";
-import fs from "fs";
-import path from "path";
 import bcrypt from "bcrypt-node";
 import jwt from "jsonwebtoken";
 import config from "../../config";

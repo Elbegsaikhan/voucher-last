@@ -4,7 +4,7 @@ import config from "../../config";
 import { toastr } from "react-redux-toastr";
 
 import HeaderSecond from "./HeaderSecond";
-import {openLogin, closeLogin, changeValue, submitLogin, switchType, submitRegister} from "../../actions/auth_actions";
+import { openLogin, closeLogin, changeValue, submitLogin, switchType, submitRegister } from "../../actions/auth_actions";
 
 const reducer = ({ main, auth }) => ({ main, auth });
 
@@ -53,6 +53,7 @@ class Header extends Component {
       auth: { isRegister, modal, login, register },
     } = this.props;
     // let url = (location.pathname || '').split("/").filter(v => v);
+
     return (
       <div>
         <HeaderSecond config={config} user={user} scroll={this.props.scroll} search={this.props.search} />

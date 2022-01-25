@@ -14,7 +14,7 @@ function WindowScroll(props) {
 	}, []);
 	const handleScroll = () => {
 		const position = window.pageYOffset;
-		position > 1000 ? setShow(true) : setShow(false)
+		position > 500 ? setShow(true) : setShow(false)
 	};
 	const scroll = () => {
 		window.scrollTo({top: 0, left: 0, behavior: "smooth"})
@@ -34,8 +34,8 @@ function WindowScroll(props) {
 							<img src='/uploads/2021/05/hand.png' style={{
 								backgroundSize: "cover",
 								backgroundRepeat: 'no-repeat',
-								width: '50px',
-								height: '50px'
+								width: '30px',
+								height: '30px'
 							}}/>
 						</div>
 					</animated.div>

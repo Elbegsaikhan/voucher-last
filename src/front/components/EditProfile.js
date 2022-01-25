@@ -325,8 +325,8 @@ class EditProfile extends Component {
                                                                 marginTop: -8,
                                                             }}
                                                         >
-                              Хувь хүн бол хувь хүн гэж бичих
-                            </span>
+                                                            Хувь хүн бол хувь хүн гэж бичих
+                                                        </span>
                                                         <Form.Control
                                                             onChange={(e) => this.setState({ company: e.target.value })}
                                                             value={this.state.company}
@@ -345,8 +345,8 @@ class EditProfile extends Component {
                                                                 marginTop: -8,
                                                             }}
                                                         >
-                              Хувь хүн бол хувь хүн гэж бичих
-                            </span>
+                                                            Хувь хүн бол хувь хүн гэж бичих
+                                                        </span>
                                                         <Form.Control
                                                             onChange={(e) => this.setState({ profession: e.target.value })}
                                                             value={this.state.profession}
@@ -365,9 +365,8 @@ class EditProfile extends Component {
                                                                 marginTop: -8,
                                                             }}
                                                         >
-                              Сонгосон сургалтын цагийн хуваарь бусад зүйлсээ энд бичнэ үү, Сургалтын бүртгэлийн хүсэлт
-                              илгээх бүртээ заавал засах
-                            </span>
+
+                                                        </span>
                                                         <Form.Control
                                                             as="textarea"
                                                             rows={4}

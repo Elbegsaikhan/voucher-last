@@ -113,7 +113,8 @@ const Autoplay = (props) => {
                                 width="100%"
                                 style={{
                                     width: "100%",
-                                    height: isMobileOnly ? "700px" : props.height,
+                                    height: isMobileOnly ? "auto" : props.height,
+	                                  objectFit: 'cover'
                                 }}
                             />
                         </div>

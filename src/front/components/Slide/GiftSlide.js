@@ -1,9 +1,9 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import Swiper from "react-id-swiper";
-import {isMobile, isMobileOnly} from "react-device-detect";
-import {Link} from "react-router-dom";
-import {saveCart} from "../../actions/cart_actions";
-import {connect} from 'react-redux';
+import { isMobile, isMobileOnly } from "react-device-detect";
+import { Link } from "react-router-dom";
+import { saveCart } from "../../actions/cart_actions";
+import { connect } from 'react-redux';
 
 
 class GiftSlide extends Component {
@@ -17,9 +17,9 @@ class GiftSlide extends Component {
 	saveMe = (id2) => {
 		try {
 			const id = user && this.props.users._id
-			this.props.saveCart({_id: 0, user: id, product: id2, type: 2})
+			this.props.saveCart({ _id: 0, user: id, product: id2, type: 2 })
 		} catch (error) {
-			this.props.saveCart({_id: 0, product: id2, type: 2})
+			this.props.saveCart({ _id: 0, product: id2, type: 2 })
 			console.error(error);
 		}
 
@@ -40,8 +40,13 @@ class GiftSlide extends Component {
 				prevEl: ".swiper-button-prev",
 			},
 			breakpoints: {
+				1440: {
+					slidesPerView: 3,
+					slidesPerColumn: 1,
+					spaceBetween: 0
+				},
 				768: {
-					slidesPerView: 4,
+					slidesPerView: 3,
 					spaceBetween: 0
 				},
 				640: {
@@ -54,7 +59,7 @@ class GiftSlide extends Component {
 				},
 			},
 		} : {
-			slidesPerView: 4,
+			slidesPerView: 3,
 			slidesPerColumn: 2,
 			spaceBetween: 0,
 			containerClass: "swiper-container mainSlider",
@@ -99,10 +104,10 @@ class GiftSlide extends Component {
 		const arr = []
 		const self = this
 		this.props.voucher.map((item, index) => {
-			const ht = <div key={index} style={{display: "flex", justifyContent: 'space-around'}}>
-				<div className="example-wrapper">
+			const ht = <div key={index} style={{ display: "flex", justifyContent: 'space-around' }}>
+				<div>
 					<div className={isMobile ? "gift-card-mob" : "gift-card"} onClick={() => self.saveMe(item._id)}>
-						<Link to={`/checkout/${item._id}`} style={{textDecoration: "none"}}>
+						<Link to={`/checkout/${item._id}`} style={{ textDecoration: "none" }}>
 							<div
 								className={isMobile ? "gift-card__image_mob" : "gift-card__image"}
 								style={{
@@ -112,22 +117,25 @@ class GiftSlide extends Component {
 							</div>
 						</Link>
 					</div>
-					<div style={{display: 'flex', justifyContent: 'center'}}>
+					<div style={{ display: 'flex', justifyContent: 'center' }}>
 						<span style={{
 							fontWeight: 500,
 							fontSize: isMobile ? '0.8rem' : '1.5rem',
-							color: '#222222',
+							color: '#00FFEF',
 							textTransform: 'uppercase'
 						}}> {item.title} </span>
 					</div>
-					<div style={{display: 'flex', justifyContent: 'center', alignItems: 'baseline'}}>
-						<span style={{
-							fontWeight: 'bold',
-							fontSize: isMobile ? '0.6' : "1.2rem"
-						}}>{item.price[0].toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}₮ </span>
+					<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'baseline', }}>
+						{/*<span style={{*/}
+						{/*	fontWeight: 'bold',*/}
+						{/*	fontSize: isMobile ? '0.6' : "1.2rem"*/}
+						{/*}}>{item.price[0].toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}₮*/}
+						{/*</span>*/}
 						{" "}
 						<span style={{
-							fontSize: isMobile ? '0.6' : "1.2rem", paddingLeft: '5px'
+							fontSize: isMobile ? '0.6' : "1.2rem",
+							paddingLeft: '5px',
+							color: '#00FFEF'
 						}}>{item.category.title.toLowerCase()}</span>
 					</div>
 				</div>
@@ -151,4 +159,3 @@ const mapDispatchToProps = (dispatch) => {
 	}
 };
 export default connect(null, mapDispatchToProps)(GiftSlide)
-
