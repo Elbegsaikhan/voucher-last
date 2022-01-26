@@ -19,6 +19,7 @@ import GiftSlide from "./Slide/GiftSlide";
 import Footer from './include/Footer'
 import Header from "./include/Header";
 import SvvldVzsenSlidde from "./Slide/SvvldVzsenSlidde";
+import { removeFileItem } from "antd/lib/upload/utils";
 
 function Checkout(props) {
 	const iniState = useSelector((state) => state.main);
@@ -26,11 +27,9 @@ function Checkout(props) {
 	const home = useSelector((state) => state.home);
 	const coupon = useSelector((state) => state.coupon)
 	const dispatch = useDispatch();
-	const { addItem } = useCart();
+	const { addItem, getItem, removeItem } = useCart();
 	// const {items, all} = cart;
-	console.log("Product", product);
-	console.log("Home", home)
-	console.log('iniState', iniState)
+
 
 	useEffect(() => {
 		// run()
@@ -89,7 +88,11 @@ function Checkout(props) {
 	};
 	const sags = (id, id2) => {
 		console.log('Card ', card)
-		addItem({ id: card._id, ...card })
+		if (getItem(card._id)) {
+			removeItem(card._id)
+		} else {
+			addItem({ id: card._id, ...card })
+		}
 		// dispatch(saveCart({ _id: 0, user: id, product: id2, type: 1 }))
 	};
 	/// Tostei baraanuud
@@ -126,7 +129,7 @@ function Checkout(props) {
 			amount: total + card.price[idx],
 			productID: card._id,
 			sku: user.first_name,
-			info: `Ner: ${ner}\n Hayg: ${hayg}\n Ilgeegch: ${ilgeegch}\n Mendchilgee: ${mendchilgee}\n Ognoo: ${ognoo} `
+			info: `Хүлээн авагчийн нэр: ${ner}\n Хүлээн авах хаяг, утас: ${hayg}\n Илгээгчийн нэр: ${ilgeegch}\n Мэндчилгээ: ${mendchilgee}\n Илгээгдэх огноо: ${ognoo} `
 		}
 		console.log('Items ', item)
 		dispatch(saveWithdraw(item))
@@ -358,7 +361,10 @@ function Checkout(props) {
 												style={{ backgroundColor: "" }}
 												onClick={() => sags(user._id, props.match.params.id)}
 											>
-												Сагсанд нэмэх
+												{
+													getItem(card._id) ? "Сагснаас хасах" : "Сагсанд нэмэх"
+												}
+												{card.id}
 											</Button>
 										) : (
 											<Link
@@ -513,9 +519,9 @@ function Checkout(props) {
 					</div>
 				</Container>
 				<SvvldVzsenSlidde voucher={svvldVzsen} checkout={true} />
-			</Container>
+			</Container >
 			<Footer />
-		</ActivityContainer>
+		</ActivityContainer >
 
 	);
 }

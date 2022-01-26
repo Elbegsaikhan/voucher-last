@@ -6,10 +6,10 @@ import {
     Card,
     Select,
 } from "antd";
-import {connect} from "react-redux";
-import {Link} from "react-router-dom";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import * as action from "../actions/withdraw_actions.js";
-import {Editor} from "@tinymce/tinymce-react";
+import { Editor } from "@tinymce/tinymce-react";
 import config from "../config";
 
 class Withdraw extends React.Component {
@@ -23,26 +23,30 @@ class Withdraw extends React.Component {
     }
 
     componentDidMount() {
-        const {dispatch} = this.props;
+        const { dispatch } = this.props;
         dispatch(action.getWithdraw(this.state.current));
     }
 
     onPaginate(data) {
-        const {dispatch} = this.props;
-        this.setState({current: data.current - 1});
+        const { dispatch } = this.props;
+        this.setState({ current: data.current - 1 });
         dispatch(action.getWithdraw(data.current - 1));
     }
 
     changeHandler(id, value) {
-        const {dispatch} = this.props;
+        const { dispatch } = this.props;
         console.log("Id", id, 'Value', value)
-        dispatch(action.getWithdrawChangeStatus({id, value}));
+        dispatch(action.getWithdrawChangeStatus({ id, value }));
     }
 
     render() {
         console.log('Props ', this.props)
-        const {user, all, items, loading} = this.props;
-        const {data} = this.state;
+        const { user, all, items, loading } = this.props;
+        const { data } = this.state;
+        // const more = items
+        console.log('Data', JSON.stringify(data.user))
+        const ssss = data.user
+        console.log(ssss, ssss && ssss.first_name)
         // const data = items
         // console.log("Data", this.state)
         // const d = Object.values(items)
@@ -98,7 +102,7 @@ class Withdraw extends React.Component {
                             className={
                                 record.delivery === "hvrgsen" ? "active" : ""
                             }
-                            style={{width: "100%", marginRight: 1}}
+                            style={{ width: "100%", marginRight: 1 }}
                             loading={loading}
                             value={record.delivery}
                             name="status"
@@ -128,7 +132,7 @@ class Withdraw extends React.Component {
                             className={
                                 record.status === "active" ? "active" : ""
                             }
-                            style={{width: "180px", marginRight: 10}}
+                            style={{ width: "180px", marginRight: 10 }}
                             loading={loading}
                             value={record.status}
                             name="status"
@@ -143,13 +147,15 @@ class Withdraw extends React.Component {
                         </Select>
                         <Button
                             onClick={() =>
+                                // console.log('Record ', record)
                                 this.setState({
-                                    data: {...record.user, sku: record.sku},
+                                    data: { ...record, user: record.user, sku: record.info, product: record.product },
                                     modal: true,
                                 })
                             }
                         >
                             Дэлгэрэнгүй харах
+                            {/* {JSON.parse(record, 2, null)} */}
                         </Button>
                     </React.Fragment>
                 ),
@@ -161,9 +167,9 @@ class Withdraw extends React.Component {
                 className="full-card"
                 title="Хүсэлтүүд"
                 bordered={false}
-                // extra={
-                //     [<Button icon="plus" onClick={this.showModal.bind(this, 0)}>Нэмэх</Button>]
-                // }
+            // extra={
+            //     [<Button icon="plus" onClick={this.showModal.bind(this, 0)}>Нэмэх</Button>]
+            // }
             >
                 <Table
                     size="small"
@@ -176,11 +182,17 @@ class Withdraw extends React.Component {
                     loading={loading}
                 />
                 <Modal
-                    title={data.sku}
+                    title={"Дэлгэрэнгүй"}
                     visible={this.state.modal}
-                    onCancel={() => this.setState({modal: false, data: {}})}
+                    onCancel={() => this.setState({ modal: false, data: {} })}
                     cancelText="Хаах"
                 >
+                    <div>
+                        {data.sku}
+                    </div>
+                    <div>
+                        {/* {JSON.parse(data.product && data.product)} */}
+                    </div>
                     <ul
                         style={{
                             listStyle: "none",
@@ -188,41 +200,46 @@ class Withdraw extends React.Component {
                             padding: 0,
                         }}
                     >
-                        {user.first_name ? (
+                        {data.amount ? (
                             <li>
-                                Нэр: <strong>{user.first_name}</strong>
+                                Үнэ: <strong>{data.amount}</strong>
                             </li>
                         ) : null}
-                        {data.last_name ? (
+                        {ssss ? (
                             <li>
-                                Овог: <strong>{data.last_name}</strong>
+                                Нэр: <strong>{data.user.first_name}</strong>
                             </li>
                         ) : null}
-                        {data.birthday ? (
+                        {ssss ? (
                             <li>
-                                Төрсөн он: <strong>{data.birthday}</strong>
+                                Овог: <strong>{data.user.last_name}</strong>
                             </li>
                         ) : null}
-                        {data.phone ? (
+                        {ssss ? (
                             <li>
-                                Утас: <strong>{data.phone}</strong>
+                                Төрсөн он: <strong>{data.user.birthday}</strong>
                             </li>
                         ) : null}
-                        {data.company ? (
+                        {ssss ? (
+                            <li>
+                                Утас: <strong>{data.user.phone}</strong>
+                            </li>
+                        ) : null}
+                        {ssss ? (
                             <li>
                                 Албан байгууллага:{" "}
-                                <strong>{data.company}</strong>
+                                <strong>{data.user.company}</strong>
                             </li>
                         ) : null}
-                        {data.profession ? (
+                        {ssss ? (
                             <li>
-                                Албан тушаал: <strong>{data.profession}</strong>
+                                Албан тушаал: <strong>{data.user.profession}</strong>
                             </li>
                         ) : null}
-                        {data.more ? (
+                        {ssss ? (
                             <li>
                                 Дэлгэрэнгүй мэдээлэл:{" "}
-                                <strong>{data.more}</strong>
+                                <strong>{data.user.more}</strong>
                             </li>
                         ) : null}
                     </ul>

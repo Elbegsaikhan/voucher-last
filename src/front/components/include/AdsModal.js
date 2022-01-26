@@ -1,10 +1,10 @@
-import React, {useRef, useEffect, useCallback, useState} from "react";
-import {useSpring, animated} from "react-spring";
-import {isMobile} from "react-device-detect";
+import React, { useRef, useEffect, useCallback, useState } from "react";
+import { useSpring, animated } from "react-spring";
+import { isMobile } from "react-device-detect";
 import Icon from "@mdi/react";
-import {mdiClose, mdiMenu} from "@mdi/js";
+import { mdiClose, mdiMenu } from "@mdi/js";
 
-export default function AdsModal({showModal, setShowModal, config}) {
+export default function AdsModal({ showModal, setShowModal, config }) {
 	const modalRef = useRef();
 	const animation = useSpring({
 		config: {
@@ -46,7 +46,7 @@ export default function AdsModal({showModal, setShowModal, config}) {
 		<div>
 			{showModal ? (
 				<div className="back-style" onClick={closeModal} ref={modalRef}
-				     style={{position: 'fixed', backgroundColor: `rgb(44, 48, 45, 0.8611)`}}>
+					style={{ position: 'fixed', backgroundColor: `rgb(44, 48, 45, 0.8611)` }}>
 					<animated.div style={animation}>
 						<div className="modal-style" showModal={showModal}>
 							<div className="close">
@@ -55,12 +55,12 @@ export default function AdsModal({showModal, setShowModal, config}) {
 									path={mdiClose}
 									size={1}
 									color="#fff"
-									style={{cursor: "pointer"}}
+									style={{ cursor: "pointer" }}
 								/>
 							</div>
-							<div className="modal-content">
+							<div className="modal-content ads-content">
 								<img src={config.homeBanner1} width={isMobile ? "100%" : "600px"}
-								     style={{backgroundSize: 'cover', backgroundRepeat: 'no-repeat'}}/>
+									style={{ backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }} />
 							</div>
 						</div>
 					</animated.div>

@@ -1,15 +1,15 @@
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import ReactDOM from "react-dom";
-import {Layout, Menu, Icon, message, Row} from "antd";
+import { Layout, Menu, Icon, message, Row } from "antd";
 
-const {Header, Content, Sider} = Layout;
+const { Header, Content, Sider } = Layout;
 const rootElement = document.getElementById("social");
 import withRouter from "react-router/es/withRouter";
 import config from "./config";
-import {Router, Route, Switch, Link} from "react-router-dom";
+import { Router, Route, Switch, Link } from "react-router-dom";
 import configureStore from "./store";
-import {Provider} from "react-redux";
-import {createBrowserHistory as createHistory} from "history";
+import { Provider } from "react-redux";
+import { createBrowserHistory as createHistory } from "history";
 
 let history = createHistory();
 let main = window.__INITIAL_STATE__;
@@ -70,7 +70,7 @@ class ReactIndex extends React.Component {
 		if (user === null || user === undefined || user === "") {
 			return (
 				<Fragment>
-					<Route exact path={"/admin"} component={Login}/>
+					<Route exact path={"/admin"} component={Login} />
 				</Fragment>
 			);
 		} else {
@@ -82,7 +82,7 @@ class ReactIndex extends React.Component {
 						collapsible
 						collapsed={this.state.collapsed}
 					>
-						<div className="logo" style={{textAlign: "center"}}>
+						<div className="logo" style={{ textAlign: "center" }}>
 							<Link to="/dashboard">
 								<h3
 									style={{
@@ -102,26 +102,26 @@ class ReactIndex extends React.Component {
 							>
 								<Menu.Item key="companies">
 									<Link to="/dashboard/companies">
-										<Icon type="read"/>
+										<Icon type="read" />
 										<span>Байгууллага</span>
 									</Link>
 								</Menu.Item>
 								<Menu.Item key="product" disabled={user.status !== "active"}>
 									<Link to="/dashboard/product">
-										<Icon type="file-image"/>
+										<Icon type="file-image" />
 										<span>Voucher нэмэх</span>
 									</Link>
 								</Menu.Item>
 								<Menu.Item key="coupon">
 									<Link to="/dashboard/coupon">
-										<Icon type="dashboard"/>
+										<Icon type="dashboard" />
 										<span>Купон</span>
 									</Link>
 								</Menu.Item>
 
 								<Menu.Item key="requests">
 									<Link to="/dashboard/withdraw">
-										<Icon type="dollar"/>
+										<Icon type="dollar" />
 										<span>Авалтууд</span>
 									</Link>
 								</Menu.Item>
@@ -135,7 +135,7 @@ class ReactIndex extends React.Component {
 							>
 								<Menu.Item key="home">
 									<Link to="/dashboard">
-										<Icon type="dashboard"/>
+										<Icon type="dashboard" />
 										<span>Хянах самбар</span>
 									</Link>
 								</Menu.Item>
@@ -143,20 +143,20 @@ class ReactIndex extends React.Component {
 									key="newsA"
 									title={
 										<span>
-                                            <Icon type="read"/>
-                                            <span>Байгууллага</span>
-                                        </span>
+											<Icon type="read" />
+											<span>Байгууллага</span>
+										</span>
 									}
 								>
 									<Menu.Item key="companies">
 										<Link to="/dashboard/companies">
-											<Icon type="read"/>
+											<Icon type="read" />
 											<span>Байгууллагууд</span>
 										</Link>
 									</Menu.Item>
 									<Menu.Item key="cat">
 										<Link to="/dashboard/categories">
-											<Icon type="fork"/>
+											<Icon type="fork" />
 											<span>Ангилал</span>
 										</Link>
 									</Menu.Item>
@@ -164,25 +164,25 @@ class ReactIndex extends React.Component {
 								</Menu.SubMenu>
 								<Menu.Item key="slider">
 									<Link to="/dashboard/slider">
-										<Icon type="file-image"/>
+										<Icon type="file-image" />
 										<span>Слайдер</span>
 									</Link>
 								</Menu.Item>
 								<Menu.Item key="banner">
 									<Link to="/dashboard/banners">
-										<Icon type="picture"/>
+										<Icon type="picture" />
 										<span>Баннер</span>
 									</Link>
 								</Menu.Item>
 								<Menu.Item key="product">
 									<Link to="/dashboard/product">
-										<Icon type="file-image"/>
+										<Icon type="file-image" />
 										<span>Voucher нэмэх</span>
 									</Link>
 								</Menu.Item>
 								<Menu.Item key="about">
 									<Link to="/dashboard/about">
-										<Icon type="container"/>
+										<Icon type="container" />
 										<span>Тохиргоо</span>
 									</Link>
 								</Menu.Item>
@@ -191,7 +191,7 @@ class ReactIndex extends React.Component {
 					</Sider>
 
 					<Layout>
-						<Header style={{background: "#fff"}}>
+						<Header style={{ background: "#fff" }}>
 							<Row
 								align="middle"
 								type="flex"
@@ -206,10 +206,10 @@ class ReactIndex extends React.Component {
 									}
 									onClick={this.toggle}
 								/>
-								<a href="/api/logout" style={{fontSize: 14}}>
+								<a href="/api/logout" style={{ fontSize: 14 }}>
 									<Icon
 										type="logout"
-										style={{marginRight: 5}}
+										style={{ marginRight: 5 }}
 									/>{" "}
 									Гарах
 								</a>
@@ -341,7 +341,7 @@ class ReactIndex extends React.Component {
 ReactDOM.render(
 	<Provider store={store}>
 		<Router history={history}>
-			<ReactIndex/>
+			<ReactIndex />
 		</Router>
 	</Provider>,
 	rootElement
