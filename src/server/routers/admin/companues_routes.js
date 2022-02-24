@@ -2,8 +2,8 @@ import auth from "../../../auth";
 
 import User from "../../models/User";
 import winston from 'winston';
-import {check, validationResult} from "express-validator/check";
-import {matchedData} from "express-validator/filter";
+import { check, validationResult } from "express-validator/check";
+import { matchedData } from "express-validator/filter";
 import path from 'path';
 import moment from 'moment';
 import Jimp from "jimp";
@@ -14,50 +14,50 @@ import Category from "../../models/Category";
 import Location from "../../models/Location";
 module.exports = function (router) {
 
-    router.get('/companies/:current', auth.company ,function (req,res) {
+    router.get('/companies/:current', auth.company, function (req, res) {
         let start = parseInt(req.params.current);
         if (isNaN(start)) {
             start = 0;
         }
         async.parallel([
-            function(callback){
-                if(req.user.role === 'company') {
-                    User.find({status: {$ne: 'delete'}, role: 'company', _id: req.user._id}).exec(function(err,result){
-                        callback(err,result);
+            function (callback) {
+                if (req.user.role === 'company') {
+                    User.find({ status: { $ne: 'delete' }, role: 'company', _id: req.user._id }).exec(function (err, result) {
+                        callback(err, result);
                     });
                 } else {
-                    User.find({status: {$ne: 'delete'}, role: 'company'}).skip(start * 30).limit(30).exec(function(err,result){
-                        callback(err,result);
+                    User.find({ status: { $ne: 'delete' }, role: 'company' }).skip(start * 30).limit(30).exec(function (err, result) {
+                        callback(err, result);
                     });
                 }
             },
-            function(callback){
-                if(req.user.role === 'company') {
-                    callback(null,0);
+            function (callback) {
+                if (req.user.role === 'company') {
+                    callback(null, 0);
                 } else {
-                    User.count({status: {$ne: 'delete'}, role: 'company'},function(err,result){
-                        callback(err,result)
+                    User.count({ status: { $ne: 'delete' }, role: 'company' }, function (err, result) {
+                        callback(err, result)
                     })
                 }
             },
-            function(callback){
-                Category.find({ status: 'active' }).lean().exec(function(err,result){
-                    callback(err,result);
+            function (callback) {
+                Category.find({ status: 'active' }).lean().exec(function (err, result) {
+                    callback(err, result);
                 });
             },
-            function(callback){
-                Location.find({ status: 'active' },function(err,result){
-                    callback(err,result)
+            function (callback) {
+                Location.find({ status: 'active' }, function (err, result) {
+                    callback(err, result)
                 })
             },
-        ],function(err,results){
-            if(err) {
+        ], function (err, results) {
+            if (err) {
                 winston.error(err);
-                return res.status(200).json({success: false,message: 'Системд алдаа гарлаа'});
+                return res.status(200).json({ success: false, message: 'Системд алдаа гарлаа' });
             } else {
                 let parents = results[2].filter(item => item.parent == null || item.parent === '');
                 let cates = parents.map(function (item) {
-                    if(results[2].some(aa => ((aa.parent || {})._id || '').toString() === item._id.toString())) {
+                    if (results[2].some(aa => ((aa.parent || {})._id || '').toString() === item._id.toString())) {
                         return {
                             ...item,
                             child: results[2].filter(b => ((b.parent || {})._id || '').toString() === item._id.toString()) || []
@@ -66,11 +66,11 @@ module.exports = function (router) {
                         return item
                     }
                 });
-                return res.json({success: true,items: results[0] || [], all: results[1], categories: cates, locations: results[3]});
+                return res.json({ success: true, items: results[0] || [], all: results[1], categories: cates, locations: results[3] });
             }
         })
     });
-    router.post('/company/action', auth.company ,[
+    router.post('/company/action', auth.company, [
         check('_id')
             .trim(),
         check('name')
@@ -126,10 +126,10 @@ module.exports = function (router) {
             .isEmpty()
             .withMessage('Лого оруулна уу')
             .trim(),
-    ],function (req,res) {
+    ], function (req, res) {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(200).json({success:false,message: errors.array()[0].msg});
+            return res.status(200).json({ success: false, message: errors.array()[0].msg });
         }
         let data = matchedData(req);
         function imageFc(callback) {
@@ -140,7 +140,7 @@ module.exports = function (router) {
                     Jimp.read(input, function (err, image) {
                         if (err) {
                             winston.error('jump read error', err);
-                            res.json({success: false, msg: "Зураг зөөхөд алдаа галаа дахин оруулна уу"})
+                            res.json({ success: false, msg: "Зураг зөөхөд алдаа галаа дахин оруулна уу" })
                         }
                         if (image) {
                             image.quality(70);
@@ -148,13 +148,13 @@ module.exports = function (router) {
                             image.write(image_url, function (err) {
                                 if (err) {
                                     winston.error('upload write error', err);
-                                    res.json({success: false, msg: "Зураг хадгалж чадсангүй"});
+                                    res.json({ success: false, msg: "Зураг хадгалж чадсангүй" });
                                 } else {
                                     callback(`/uploads/${moment().format('YYYY')}/${moment().format('MM')}/${data.image.replace('/tmp/', '')}`);
                                 }
                             });
                         } else {
-                            res.json({success: false, message: "Зураг зөөхөд алдаа галаа дахин оруулна уу"})
+                            res.json({ success: false, message: "Зураг зөөхөд алдаа галаа дахин оруулна уу" })
                         }
                     });
                 });
@@ -163,28 +163,28 @@ module.exports = function (router) {
             }
         }
         function logoFc(callback) {
-            if(req.body.newLogo) {
-                let input = path.resolve(__dirname,"../../../../static"+data.logo);
-                let out = path.resolve(__dirname,"../../../../static/uploads/"+moment().format('YYYY')+'/'+moment().format('MM'));
-                fs.mkdir(out,function(e){
+            if (req.body.newLogo) {
+                let input = path.resolve(__dirname, "../../../../static" + data.logo);
+                let out = path.resolve(__dirname, "../../../../static/uploads/" + moment().format('YYYY') + '/' + moment().format('MM'));
+                fs.mkdir(out, function (e) {
                     Jimp.read(input, function (err, image) {
-                        if(err){
-                            winston.error('jump read error',err);
-                            res.json({success: false, msg: "Зураг зөөхөд алдаа галаа дахин оруулна уу"})
+                        if (err) {
+                            winston.error('jump read error', err);
+                            res.json({ success: false, msg: "Зураг зөөхөд алдаа галаа дахин оруулна уу" })
                         }
-                        if(image){
+                        if (image) {
                             image.quality(70);
-                            let image_url = path.resolve(__dirname,"../../../../static/uploads/"+moment().format('YYYY')+'/'+moment().format('MM')+'/'+data.logo.replace('/tmp/', ''));
-                            image.write(image_url,function(err){
-                                if(err){
-                                    winston.error('upload write error',err);
-                                    res.json({success: false, msg: "Зураг хадгалж чадсангүй"});
-                                }else{
+                            let image_url = path.resolve(__dirname, "../../../../static/uploads/" + moment().format('YYYY') + '/' + moment().format('MM') + '/' + data.logo.replace('/tmp/', ''));
+                            image.write(image_url, function (err) {
+                                if (err) {
+                                    winston.error('upload write error', err);
+                                    res.json({ success: false, msg: "Зураг хадгалж чадсангүй" });
+                                } else {
                                     callback(`/uploads/${moment().format('YYYY')}/${moment().format('MM')}/${data.logo.replace('/tmp/', '')}`);
                                 }
                             });
-                        }else{
-                            res.json({success: false, message: "Зураг зөөхөд алдаа галаа дахин оруулна уу"})
+                        } else {
+                            res.json({ success: false, message: "Зураг зөөхөд алдаа галаа дахин оруулна уу" })
                         }
                     });
                 });
@@ -192,13 +192,13 @@ module.exports = function (router) {
                 callback(data.logo);
             }
         }
-        if(req.body._id === 0) {
+        if (req.body._id === 0) {
             imageFc(function (imagePath) {
                 logoFc(function (logoPath) {
                     let sl = slug(data.slug || data.title);
-                    let regex = new RegExp("^"+sl, "i");
-                    User.find({slug: regex}).exec((rr,nn)=>{
-                        if(nn && nn.length > 0){
+                    let regex = new RegExp("^" + sl, "i");
+                    User.find({ slug: regex }).exec((rr, nn) => {
+                        if (nn && nn.length > 0) {
                             sl = `${sl}-${nn.length}`;
                         }
                         let news = new User();
@@ -220,14 +220,14 @@ module.exports = function (router) {
                         news.status = data.status;
                         news.membership = data.membership;
                         news.save(function (err, ssss) {
-                            if(err){
+                            if (err) {
                                 winston.error(err);
-                                return res.json({success: false, message: 'Системд алдаа гарлаа'});
+                                return res.json({ success: false, message: 'Системд алдаа гарлаа' });
                             }
-                            if(data){
-                                return res.json({success: true, sucmod: true, message: 'Амжилттай хадгалагдлаа', result: ssss, edit: false});
-                            }else{
-                                return res.json({success: false, message: 'Системд алдаа гарлаа'});
+                            if (data) {
+                                return res.json({ success: true, sucmod: true, message: 'Амжилттай хадгалагдлаа', result: ssss, edit: false });
+                            } else {
+                                return res.json({ success: false, message: 'Системд алдаа гарлаа' });
                             }
                         });
                     })
@@ -236,12 +236,12 @@ module.exports = function (router) {
         } else {
             imageFc(function (imagePath) {
                 logoFc(function (logoPath) {
-                    User.findOne({_id: req.body._id}).exec(function(err,news){
-                        if(err) {
+                    User.findOne({ _id: req.body._id }).exec(function (err, news) {
+                        if (err) {
                             winston.error(err);
-                            return res.status(200).json({success: false, message: 'Системд алдаа гарлаа'});
+                            return res.status(200).json({ success: false, message: 'Системд алдаа гарлаа' });
                         }
-                        if(news) {
+                        if (news) {
                             news.name = data.name;
                             news.bio = data.bio;
                             news.image = imagePath;
@@ -258,81 +258,84 @@ module.exports = function (router) {
                             news.category = data.category;
                             news.status = data.status;
                             news.membership = data.membership;
-                            if(news.slug !== data.slug) {
+                            if (news.slug !== data.slug) {
                                 let sl = slug(data.slug || data.title);
-                                let regex = new RegExp("^"+sl, "i");
-                                User.find({slug: regex}).exec((rr,nn)=> {
+                                let regex = new RegExp("^" + sl, "i");
+                                User.find({ slug: regex }).exec((rr, nn) => {
                                     if (nn && nn.length > 0) {
                                         sl = `${sl}-${nn.length}`;
                                     }
                                     news.slug = sl;
                                     news.save(function (err, data) {
-                                        if(err) {
+                                        if (err) {
                                             winston.error(err);
-                                            return res.json({success: false, message: 'Системд алдаа гарлаа'});
+                                            return res.json({ success: false, message: 'Системд алдаа гарлаа' });
                                         }
-                                        if(data) {
-                                            return res.json({success: true, sucmod: true, message: 'Амжилттай хадгалагдлаа', result: data, edit: true});
+                                        if (data) {
+                                            return res.json({ success: true, sucmod: true, message: 'Амжилттай хадгалагдлаа', result: data, edit: true });
                                         } else {
-                                            return res.json({success: false, message: 'Системд алдаа гарлаа'});
+                                            return res.json({ success: false, message: 'Системд алдаа гарлаа' });
                                         }
                                     });
                                 })
                             } else {
                                 news.save(function (err, data) {
-                                    if(err) {
+                                    if (err) {
                                         winston.error(err);
-                                        return res.json({success: false, message: 'Системд алдаа гарлаа'});
+                                        return res.json({ success: false, message: 'Системд алдаа гарлаа' });
                                     }
-                                    if(data) {
-                                        return res.json({success: true, sucmod: true, message: 'Амжилттай хадгалагдлаа', result: data, edit: true});
+                                    if (data) {
+                                        return res.json({ success: true, sucmod: true, message: 'Амжилттай хадгалагдлаа', result: data, edit: true });
                                     } else {
-                                        return res.json({success: false, message: 'Системд алдаа гарлаа'});
+                                        return res.json({ success: false, message: 'Системд алдаа гарлаа' });
                                     }
                                 });
                             }
                         } else {
-                            return res.json({success: false, message: 'Байгууллага олдсонгүй'});
+                            return res.json({ success: false, message: 'Байгууллага олдсонгүй' });
                         }
                     });
                 })
             })
         }
     });
-    router.get('/delete/company/:id', auth.company ,function (req,res) {
-        User.findOne({_id: req.params.id}).exec(function(err,news){
-            if(err) {
-                winston.error(err);
-                return res.status(200).json({success: false, message: 'Системд алдаа гарлаа'});
-            }
-            if(news) {
-                news.status = 'delete';
-                news.save(function (err, data) {
-                    if(err) {
-                        winston.error(err);
-                        return res.json({success: false, message: 'Системд алдаа гарлаа'});
-                    }
-                    if(data) {
-                        return res.json({success: true, sucmod: true, message: 'Амжилттай услтгагдлаа', id: req.params.id});
-                    } else {
-                        return res.json({success: false, message: 'Системд алдаа гарлаа'});
-                    }
-                });
-            } else {
-                return res.json({success: false, message: 'News олдсонгүй'});
-            }
-        });
+    router.get('/delete/company/:id', auth.company, async (req, res) => {
+        await User.updateOne({ _id: data._id }, { first_name: 'Test update' }).exec((err, res) => {
+            console.log('Err', err, 'res', res)
+        })
+        // User.findOne({_id: req.params.id}).exec(function(err,news){
+        //     if(err) {
+        //         winston.error(err);
+        //         return res.status(200).json({success: false, message: 'Системд алдаа гарлаа'});
+        //     }
+        //     if(news) {
+        //         news.status = 'delete';
+        //         news.save(function (err, data) {
+        //             if(err) {
+        //                 winston.error(err);
+        //                 return res.json({success: false, message: 'Системд алдаа гарлаа'});
+        //             }
+        //             if(data) {
+        //                 return res.json({success: true, sucmod: true, message: 'Амжилттай услтгагдлаа', id: req.params.id});
+        //             } else {
+        //                 return res.json({success: false, message: 'Системд алдаа гарлаа'});
+        //             }
+        //         });
+        //     } else {
+        //         return res.json({success: false, message: 'News олдсонгүй'});
+        //     }
+        // });
     });
-    router.get('/get/company/:id', auth.company ,function (req,res) {
-        User.findOne({_id: req.params.id}).exec(function(err,result){
-            if(err) {
+    router.get('/get/company/:id', auth.company, function (req, res) {
+        User.findOne({ _id: req.params.id }).exec(function (err, result) {
+            if (err) {
                 winston.error(err);
-                return res.status(200).json({success: false, message: 'Системд алдаа гарлаа'});
+                return res.status(200).json({ success: false, message: 'Системд алдаа гарлаа' });
             }
-            if(result) {
-                return res.json({success: true,result});
+            if (result) {
+                return res.json({ success: true, result });
             } else {
-                return res.json({success: false, message: 'Олдсонгүй'});
+                return res.json({ success: false, message: 'Олдсонгүй' });
             }
         });
     });
