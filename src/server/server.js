@@ -70,7 +70,8 @@ if (env === 'development') {
     //     {"useNewUrlParser": true, "useUnifiedTopology": true})
 
 } else {
-    mongoose.connect(configServer.mongoUrl, configServer.option);
+    // mongoose.connect(configServer.mongoUrl, configServer.option);
+    mongoose.connect("mongodb://localhost:27017/vouchers");
 }
 // mongoose.connect(config.mongoUrl);
 mongoose.connection.on('open', function (ref) {
